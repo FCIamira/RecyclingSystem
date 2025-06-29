@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace RecyclingSystem.Domain.Common
 {
-    internal class BaseModel<T>
+    public class BaseModel<T>
     {
         [Key]
         public T Id { get; set; }

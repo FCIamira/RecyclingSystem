@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace RecyclingSystem.Domain.Models
 {
-    internal class WarehouseInventory : BaseModel<int>
+    public class WarehouseInventory : BaseModel<int>
     {
         [Required]
         [ForeignKey("Warehouse")]

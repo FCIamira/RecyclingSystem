@@ -17,4 +17,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\RecyclingSystem.Application\RecyclingSystem.Application.csproj" />
+    <ProjectReference Include="..\RecyclingSystem.Domain\RecyclingSystem.Domain.csproj" />
+    <ProjectReference Include="..\RecyclingSystem.Infrastructure\RecyclingSystem.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>

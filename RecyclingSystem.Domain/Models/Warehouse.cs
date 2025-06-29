@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace RecyclingSystem.Domain.Models
 {
-    internal class Warehouse : BaseModel<int>
+    public class Warehouse : BaseModel<int>
     {
         [Required]
         [MinLength(3, ErrorMessage = "Name must be at least 3 characters.")]
