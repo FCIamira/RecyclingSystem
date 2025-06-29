@@ -36,6 +36,6 @@ namespace RecyclingSystem.Domain.Models
 
         //Navigation Property
         public Warehouse? Warehouse { get; set; }
-        //public Material? Material { get; set; }
+        public Material? Material { get; set; }
     }
 }
