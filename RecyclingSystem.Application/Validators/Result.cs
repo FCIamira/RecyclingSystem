@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RecyclingSystem.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,7 @@ namespace RecyclingSystem.Application.Validators
     {
         public bool IsSuccess { get; init; }
         public T? Data { get; init; }
-        //public ErrorCode Errorcode { get; init; }
+        public ErrorCode Errorcode { get; init; }
         public string Message { get; init; }
 
         //public static Result<T> Success(T data) => new Result<T>() { IsSuccess = true, Data = data };
@@ -28,7 +29,7 @@ namespace RecyclingSystem.Application.Validators
 
                 Message = message,
 
-                //Errorcode = ErrorCode.None,
+                Errorcode = ErrorCode.None,
 
             };
 
@@ -36,7 +37,7 @@ namespace RecyclingSystem.Application.Validators
 
 
 
-        public static Result<T> Failure( string message = "")//ErrorCode errorCode,
+        public static Result<T> Failure(ErrorCode errorCode, string message = "")
 
         {
 
@@ -46,7 +47,7 @@ namespace RecyclingSystem.Application.Validators
                 Data = default,
                 IsSuccess = false,
                 Message = message,
-               // Errorcode = errorCode,
+                Errorcode = errorCode,
             };
 
         }

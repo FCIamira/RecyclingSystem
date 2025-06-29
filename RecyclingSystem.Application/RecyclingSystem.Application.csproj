@@ -10,4 +10,8 @@
     <Folder Include="Feature\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\RecyclingSystem.Domain\RecyclingSystem.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
