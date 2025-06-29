@@ -8,7 +8,7 @@ using RecyclingSystem.Domain.Common;
 using static System.Net.Mime.MediaTypeNames;
 namespace RecyclingSystem.Domain.Models
 {
-    internal class Rewards:BaseModel<int>
+    public class Rewards:BaseModel<int>
     {
         [Required(ErrorMessage = "Title is required.")]
         [MaxLength(100, ErrorMessage = "Title must not exceed 100 characters.")]

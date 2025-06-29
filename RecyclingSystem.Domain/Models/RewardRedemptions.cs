@@ -8,16 +8,16 @@ using RecyclingSystem.Domain.Common;
 using RecyclingSystem.Domain.Enums;
 namespace RecyclingSystem.Domain.Models
 {
-    internal class RewardRedemptions:BaseModel<int>
+    public class RewardRedemptions:BaseModel<int>
     {
-        [ForeignKey("User")]
+        //[ForeignKey(nameof(User))]
        public int UserId {   get; set;}
-        [ForeignKey("Rewards")]
+        [ForeignKey(nameof(Rewards))]
        public int  RewardId {  get; set;}
         public DateTime DateRedeemed {get;set;}
-        public Status Status { get; set;}
+        public Status RedemptionStatus { get; set;}
 
-        public virtual Rewards Rewards { get; set;}
-        //public virtual User User { get; set; }//not completed
+        public virtual Rewards ?Rewards { get; set;}
+        //public virtual User ?User { get; set; }//not completed
     }
 }
