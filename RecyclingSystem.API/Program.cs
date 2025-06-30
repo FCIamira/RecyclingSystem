@@ -1,10 +1,17 @@
 
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using RecyclingSystem.Domain.Interfaces;
+using RecyclingSystem.Domain.Models;
 using RecyclingSystem.Infrastructure.Context;
 using RecyclingSystem.Infrastructure.Repository;
+using System.Text;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using RecyclingSystem.Application.Feature.Account.Commands;
 
 namespace RecyclingSystem.API
 {
@@ -28,6 +35,52 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectio
             #endregion
 
             builder.Services.AddControllers();
+
+            #region JWT
+
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("MyPolicy", policy =>
+                     policy.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin()
+                  );
+            });
+
+
+            //Setting Authanticatio  Middleware check using JWTToke
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme =
+                    JwtBearerDefaults.AuthenticationScheme;//check using jwt toke
+                options.DefaultChallengeScheme =
+                    JwtBearerDefaults.AuthenticationScheme; //redrect response in case not found cookie | token
+                options.DefaultScheme =
+                    JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.SaveToken = true;
+                options.RequireHttpsMetadata = false;
+                options.TokenValidationParameters = new()
+                {
+                    ValidateIssuer = true,
+                    ValidIssuer = builder.Configuration["JWT:Iss"],//proivder
+                    ValidateAudience = true,
+                    ValidAudience = builder.Configuration["JWT:Aud"],
+                    IssuerSigningKey = new SymmetricSecurityKey
+                    (Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]))
+                };
+            });
+
+            #endregion
+
+            #region Identity
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
+                .AddEntityFrameworkStores<RecyclingContext>()
+                .AddDefaultTokenProviders();
+
+            #endregion
+
+            builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(LoginCommand).Assembly));
+
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -83,7 +136,7 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectio
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
 
