@@ -27,11 +27,11 @@ namespace RecyclingSystem.Domain.Models
 
         public int TotalPointsGiven { get; set; }
 
-        //[ForeignKey("CustomerId")]
-        //public virtual Users? Customer { get; set; }
+        [ForeignKey("CustomerId")]
+        public virtual ApplicationUser? Customer { get; set; }
 
-        //[ForeignKey("EmployeeId")]
-        //public virtual Users? Employee { get; set; }
+        [ForeignKey("EmployeeId")]
+        public virtual ApplicationUser? Employee { get; set; }
 
         public ICollection<PickupItem>? PickupItems { get; set; }
     }

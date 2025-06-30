@@ -28,7 +28,7 @@ namespace RecyclingSystem.Domain.Models
         public int ManagerId { get; set; }
 
         //Navigation Property
-        //public Users? User { get; set; }
+        public ApplicationUser? User { get; set; }
         public ICollection<WarehouseInventory>? Inventory { get; set; }
         public ICollection<FactoryOrders>? FactoryOrders { get; set; }
     }

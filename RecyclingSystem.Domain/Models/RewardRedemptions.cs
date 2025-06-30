@@ -10,14 +10,14 @@ namespace RecyclingSystem.Domain.Models
 {
     public class RewardRedemptions:BaseModel<int>
     {
-        //[ForeignKey(nameof(User))]
+        [ForeignKey(nameof(User))]
        public int UserId {   get; set;}
         [ForeignKey(nameof(Rewards))]
        public int  RewardId {  get; set;}
         public DateTime DateRedeemed {get;set;}
         public Status RedemptionStatus { get; set;}
 
-        public virtual Rewards ?Rewards { get; set;}
-        //public virtual User ?User { get; set; }//not completed
+        public virtual Rewards? Rewards { get; set;}
+        public virtual ApplicationUser? User { get; set; }//not completed
     }
 }
