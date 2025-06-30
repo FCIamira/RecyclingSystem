@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
 using RecyclingSystem.Domain.Common;
+using RecyclingSystem.Domain.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -20,7 +21,7 @@ namespace RecyclingSystem.Domain.Models
 
         public string Note { get; set; }
 
-        public string Status { get; set; }
+        public PickupStatus Status { get; set; }
 
         public DateTime? DateCollected { get; set; }
 

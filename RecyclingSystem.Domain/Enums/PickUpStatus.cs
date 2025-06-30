@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace RecyclingSystem.Domain.Enums
 {
-    internal class PickUpStatus
+    public enum PickupStatus
     {
+        Pending = 0,
+        Scheduled = 1,
+        Collected = 2,
+        Cancelled = 3
     }
+
 }
