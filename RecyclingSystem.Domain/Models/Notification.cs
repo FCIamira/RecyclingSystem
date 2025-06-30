@@ -24,9 +24,9 @@ namespace RecyclingSystem.Domain.Models
         public bool IsRead { get; set; } = false;
 
         [Required]
-        public string UserId { get; set; }
+        [ForeignKey("User")]
+        public int UserId { get; set; }
 
-        [ForeignKey("UserId")]
-        public ApplicationUser User { get; set; }
+        public ApplicationUser? User { get; set; }
     }
 }

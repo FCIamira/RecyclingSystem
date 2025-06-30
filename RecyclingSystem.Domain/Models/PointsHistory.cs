@@ -13,7 +13,7 @@ namespace RecyclingSystem.Domain.Models
     public class PointsHistory : BaseModel<int>
     {
         [Required]
-        public string UserId { get; set; }
+        public int UserId { get; set; }
 
         [ForeignKey("UserId")]
         public ApplicationUser User { get; set; }

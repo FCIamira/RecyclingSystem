@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using RecyclingSystem.Domain.Common;
 using RecyclingSystem.Domain.Models;
 using System;
 using System.Collections.Generic;
@@ -30,5 +31,22 @@ namespace RecyclingSystem.Infrastructure.Context
         {
 
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+            {
+                if (typeof(BaseModel<>).IsAssignableFrom(entityType.ClrType.BaseType))
+                {
+                    modelBuilder.Entity(entityType.ClrType)
+                        .Property("IsDeleted")
+                        .HasDefaultValue(false);
+
+                    modelBuilder.Entity(entityType.ClrType)
+                        .Property("DateCreated")
+                        .HasDefaultValueSql("GETUTCDATE()");
+                }
+            }
+        }
+
     }
 }

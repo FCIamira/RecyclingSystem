@@ -32,8 +32,8 @@ namespace RecyclingSystem.Domain.Models
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         // Navigation properties
-        public virtual ICollection<Notification> Notifications { get; set; }
-        public virtual ICollection<PointsHistory> PointsHistory { get; set; }
+        public virtual ICollection<Notification>? Notifications { get; set; }
+        public virtual ICollection<PointsHistory>? PointsHistory { get; set; }
         public virtual ICollection<EmployeeWarehouseHistory>? Employees { get; set; }
     }
 }
