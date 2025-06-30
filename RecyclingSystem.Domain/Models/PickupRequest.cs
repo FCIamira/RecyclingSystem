@@ -1,33 +1,38 @@
-﻿using RecyclingSystem.Domain.Common;
+﻿using Microsoft.AspNet.Identity;
+using RecyclingSystem.Domain.Common;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RecyclingSystem.Domain.Models
     {
-        public class PickupRequest : BaseModel<int>
-        {
-            [ForeignKey("User")]
-            public int CustomerId { get; set; }
+    public class PickupRequest : BaseModel<int>
+    {
+        public int CustomerId { get; set; }
 
-            public DateTime RequestedDate { get; set; }
+        public int EmployeeId { get; set; }
 
-            public DateTime? ScheduledDate { get; set; }
+        public DateTime RequestedDate { get; set; }
 
-            public string Location { get; set; }
+        public DateTime? ScheduledDate { get; set; }
 
-            public string Note { get; set; }
+        public string LocationLat { get; set; }
+        public string LocationLng { get; set; }
 
-            public string Status { get; set; }
+        public string Note { get; set; }
 
-            public int? EmployeeId { get; set; }
+        public string Status { get; set; }
 
-            public DateTime? DateCollected { get; set; }
+        public DateTime? DateCollected { get; set; }
 
-            public int TotalPointsGiven { get; set; }
+        public int TotalPointsGiven { get; set; }
 
+        //[ForeignKey("CustomerId")]
+        //public virtual Users? Customer { get; set; }
 
-            //Navigation Property
-            public virtual Users? User { get; set; }
-            public ICollection<PickupItem>? PickupItems { get; set; }
-        }
+        //[ForeignKey("EmployeeId")]
+        //public virtual Users? Employee { get; set; }
+
+        public ICollection<PickupItem>? PickupItems { get; set; }
     }
+
+}
