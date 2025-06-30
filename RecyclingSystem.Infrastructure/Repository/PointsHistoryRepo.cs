@@ -12,8 +12,8 @@ namespace RecyclingSystem.Infrastructure.Repository
     public class PointsHistoryRepo : GenericRepo<PointsHistory, int>, IPointsHistory
     {
 
-        private readonly RecyclingContext context;
-        public PointsHistoryRepo(RecyclingContext _context) : base(_context)
+        private readonly RecyclingDbContext context;
+        public PointsHistoryRepo(RecyclingDbContext _context) : base(_context)
         {
             context = _context;
         }

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace RecyclingSystem.Domain.Models
 {
-    public class ApplicationUser : IdentityUser<Guid>
+    public class ApplicationUser : IdentityUser<int>
     {
         [Required]
         [StringLength(100, MinimumLength = 2)]
@@ -34,5 +34,6 @@ namespace RecyclingSystem.Domain.Models
         // Navigation properties
         public virtual ICollection<Notification> Notifications { get; set; }
         public virtual ICollection<PointsHistory> PointsHistory { get; set; }
+        public virtual ICollection<EmployeeWarehouseHistory>? Employees { get; set; }
     }
 }

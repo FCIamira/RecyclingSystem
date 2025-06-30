@@ -11,9 +11,9 @@ namespace RecyclingSystem.Infrastructure.Repository
 {
     public class FactoryOrdersRepo:GenericRepo<FactoryOrders,int>, IFactoryOrder
     {
-        private readonly RecyclingContext context;
+        private readonly RecyclingDbContext context;
 
-        public FactoryOrdersRepo (RecyclingContext context):base (context)
+        public FactoryOrdersRepo (RecyclingDbContext context):base (context)
         {
             this.context = context;
         }

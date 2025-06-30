@@ -28,9 +28,9 @@ namespace RecyclingSystem.Application.Feature.Account.Commands
     public class RegisterCommandHandler : IRequestHandler<RegisterCommand, Result<RegisterCommandResponse>>
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly RoleManager<IdentityRole<Guid>> _roleManager;
+        private readonly RoleManager<IdentityRole<int>> _roleManager;
 
-        public RegisterCommandHandler(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole<Guid>> roleManager)
+        public RegisterCommandHandler(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole<int>> roleManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -68,7 +68,7 @@ namespace RecyclingSystem.Application.Feature.Account.Commands
             {
                 if (!await _roleManager.RoleExistsAsync(role))
                 {
-                    await _roleManager.CreateAsync(new IdentityRole<Guid>(role));
+                    await _roleManager.CreateAsync(new IdentityRole<int>(role));
                 }
             }
 

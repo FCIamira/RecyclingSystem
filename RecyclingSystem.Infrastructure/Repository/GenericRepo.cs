@@ -14,10 +14,10 @@ namespace RecyclingSystem.Infrastructure.Repository
 {
     public class GenericRepo<T, TId> : IGenericRepo<T, TId> where T : BaseModel<TId>
     {
-        private readonly RecyclingContext context;
+        private readonly RecyclingDbContext context;
         private readonly DbSet<T> _dbSet;
 
-        public GenericRepo(RecyclingContext _context)
+        public GenericRepo(RecyclingDbContext _context)
         {
             context = _context;
             _dbSet = context.Set<T>();

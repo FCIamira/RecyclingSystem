@@ -26,7 +26,7 @@ namespace RecyclingSystem.Domain.Models
         public DateTime LastUpdated { get; set; }
 
         //Navigation Property
-        public Warehouse? Warehouse { get; set; }
-        public Material? Material { get; set; }
+        public virtual Warehouse? Warehouse { get; set; }
+        public virtual Material? Material { get; set; }
     }
 }

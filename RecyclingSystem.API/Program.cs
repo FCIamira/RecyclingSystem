@@ -1,17 +1,18 @@
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using RecyclingSystem.Application.Feature.Account.Commands;
 using RecyclingSystem.Domain.Interfaces;
 using RecyclingSystem.Domain.Models;
 using RecyclingSystem.Infrastructure.Context;
 using RecyclingSystem.Infrastructure.Repository;
 using System.Text;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using RecyclingSystem.Application.Feature.Account.Commands;
 
 namespace RecyclingSystem.API
 {
@@ -23,8 +24,10 @@ namespace RecyclingSystem.API
 
             // Add services to the container.
             #region Injection
-            builder.Services.AddDbContext<RecyclingContext>(options =>
-options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+            builder.Services.AddDbContext<RecyclingDbContext>(options =>
+                //options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+                options.UseSqlServer(builder.Configuration.GetConnectionString("MarlyCS"))
+                );
 
             builder.Services.AddScoped(typeof(IGenericRepo<,>), typeof(GenericRepo<,>));
 
@@ -73,8 +76,8 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectio
             #endregion
 
             #region Identity
-            builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
-                .AddEntityFrameworkStores<RecyclingContext>()
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole<int>>()
+                .AddEntityFrameworkStores<RecyclingDbContext>()
                 .AddDefaultTokenProviders();
 
             #endregion

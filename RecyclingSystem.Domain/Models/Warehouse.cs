@@ -24,12 +24,13 @@ namespace RecyclingSystem.Domain.Models
         [Range(0, double.MaxValue, ErrorMessage = "Capacity must be non-negative.")]
         public double? CapacityKg { get; set; }
 
-        [ForeignKey("User")]
+        [ForeignKey("Manager")]
         public int ManagerId { get; set; }
 
         //Navigation Property
-        public ApplicationUser? User { get; set; }
-        public ICollection<WarehouseInventory>? Inventory { get; set; }
-        public ICollection<FactoryOrders>? FactoryOrders { get; set; }
+        public ApplicationUser? Manager { get; set; }
+        public virtual ICollection<WarehouseInventory>? Inventory { get; set; }
+        public virtual ICollection<FactoryOrders>? FactoryOrders { get; set; }
+        public virtual ICollection<EmployeeWarehouseHistory>? Employees { get; set; }
     }
 }

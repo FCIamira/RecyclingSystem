@@ -12,11 +12,11 @@ namespace RecyclingSystem.Infrastructure.Repository
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly RecyclingContext _context;
+        private readonly RecyclingDbContext _context;
         private IFactoryOrder _factoryOrders;
         private IWarehouse _warehouse;
         private IWarehouseInventory _warehouseInventory;
-        public UnitOfWork(RecyclingContext applicationDBContext)
+        public UnitOfWork(RecyclingDbContext applicationDBContext)
         {
             _context = applicationDBContext;
         }

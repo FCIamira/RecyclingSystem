@@ -11,9 +11,9 @@ namespace RecyclingSystem.Infrastructure.Repository
 {
     public class WarehouseRepo : GenericRepo<Warehouse, int>, IWarehouse
     {
-        private readonly RecyclingContext context;
+        private readonly RecyclingDbContext context;
 
-        public WarehouseRepo(RecyclingContext _context) : base(_context)
+        public WarehouseRepo(RecyclingDbContext _context) : base(_context)
         {
             context = _context;
         }

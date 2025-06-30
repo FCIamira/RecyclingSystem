@@ -11,9 +11,9 @@ namespace RecyclingSystem.Infrastructure.Repository
 {
     public class MaterialRepo : GenericRepo<Material, int>, IMaterials
     {
-        private readonly RecyclingContext context;
+        private readonly RecyclingDbContext context;
 
-        public MaterialRepo(RecyclingContext _context) : base(_context)
+        public MaterialRepo(RecyclingDbContext _context) : base(_context)
         {
             context = _context;
         }

@@ -11,7 +11,7 @@ namespace RecyclingSystem.Domain.Common
     {
         [Key]
         public T Id { get; set; }
-        public bool IsDeleted { get; set; }
+        public bool IsDeleted { get; set; } = false;
         public DateTime DateCreated { get; set; } = DateTime.UtcNow;
     }
 }

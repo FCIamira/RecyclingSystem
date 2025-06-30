@@ -11,9 +11,9 @@ namespace RecyclingSystem.Infrastructure.Repository
 {
     public class PickupRequestRepo : GenericRepo<PickupRequest, int>, IPickupRequest
     {
-        private readonly RecyclingContext context;
+        private readonly RecyclingDbContext context;
 
-        public PickupRequestRepo(RecyclingContext _context) : base(_context)
+        public PickupRequestRepo(RecyclingDbContext _context) : base(_context)
         {
             context = _context;
         }

@@ -11,8 +11,8 @@ namespace RecyclingSystem.Infrastructure.Repository
 {
     public class NotificationRepo : GenericRepo<Notification, int>, INotification
     {
-        private readonly RecyclingContext context;
-        public NotificationRepo(RecyclingContext _context) : base(_context)
+        private readonly RecyclingDbContext context;
+        public NotificationRepo(RecyclingDbContext _context) : base(_context)
         {
             context = _context;
         }
