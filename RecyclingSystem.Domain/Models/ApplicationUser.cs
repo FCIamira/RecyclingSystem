@@ -26,7 +26,6 @@ namespace RecyclingSystem.Domain.Models
 
         public string? ProfilePictureUrl { get; set; }
 
-        [Required]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         // Navigation properties

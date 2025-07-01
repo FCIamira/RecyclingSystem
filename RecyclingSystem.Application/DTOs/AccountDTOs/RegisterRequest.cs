@@ -19,6 +19,7 @@ namespace RecyclingSystem.Application.DTOs.AccountDTOs
         [EmailAddress]
 
         public string EmailAddress { get; set; } = null!;
+        //public string? Address { get; set; } 
 
         [Required(ErrorMessage = "Password Is Required")]
         [DataType(DataType.Password)]

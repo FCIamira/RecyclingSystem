@@ -50,11 +50,11 @@ namespace RecyclingSystem.Application.Feature.Account.Commands
 
             ApplicationUser user = new ApplicationUser()
             {
-                //FirstName = request.registerRequest.FirstName,
-                //LastName = request.registerRequest.LastName,
+               
                 UserName = request.registerRequest.UserName,
                 Email = request.registerRequest.EmailAddress,
                 FullName = $"{request.registerRequest.FirstName} {request.registerRequest.LastName}",
+                //Address = request.registerRequest.Address,
             };
 
             string[] roles = new[] { "Admin", "Manager", "Employee", "Customer" };
