@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace RecyclingSystem.Infrastructure.Context
 {
-    public class RecyclingDbContext : IdentityDbContext<ApplicationUser,IdentityRole<int>,int>
+    public class RecyclingDbContext : IdentityDbContext<ApplicationUser, IdentityRole<int>, int>
     {
         public DbSet<ApplicationUser> Users {  get; set; }
         public DbSet<EmployeeWarehouseHistory> EmployeesHistories { get; set; }
@@ -33,6 +33,12 @@ namespace RecyclingSystem.Infrastructure.Context
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<IdentityUserLogin<int>>()
+                .HasKey(l => new { l.LoginProvider, l.ProviderKey });
+
+
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {
                 if (typeof(BaseModel<>).IsAssignableFrom(entityType.ClrType.BaseType))

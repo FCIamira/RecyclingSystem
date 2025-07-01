@@ -77,8 +77,9 @@ namespace RecyclingSystem.API
 
             #region Identity
             builder.Services.AddIdentity<ApplicationUser, IdentityRole<int>>()
-                .AddEntityFrameworkStores<RecyclingDbContext>()
-                .AddDefaultTokenProviders();
+            .AddEntityFrameworkStores<RecyclingDbContext>()
+            .AddDefaultTokenProviders();
+
 
             #endregion
 
