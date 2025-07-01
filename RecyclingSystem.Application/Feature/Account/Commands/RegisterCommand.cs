@@ -53,17 +53,11 @@ namespace RecyclingSystem.Application.Feature.Account.Commands
                 //FirstName = request.registerRequest.FirstName,
                 //LastName = request.registerRequest.LastName,
                 UserName = request.registerRequest.UserName,
-                Email = request.registerRequest.EmailAddress
+                Email = request.registerRequest.EmailAddress,
+                FullName = $"{request.registerRequest.FirstName} {request.registerRequest.LastName}",
             };
 
-            IdentityResult result = await _userManager.CreateAsync(user, request.registerRequest.Password);
-            if (!result.Succeeded)
-            {
-                string errorMessages = string.Join(", ", result.Errors.Select(e => e.Description));
-                return Result<RegisterCommandResponse>.Failure(ErrorCode.Unauthorized, errorMessages);
-            }
-
-            string[] roles = new[] { "Admin", "Manager", "User" };
+            string[] roles = new[] { "Admin", "Manager", "Employee", "Customer" };
             foreach (var role in roles)
             {
                 if (!await _roleManager.RoleExistsAsync(role))
@@ -72,7 +66,18 @@ namespace RecyclingSystem.Application.Feature.Account.Commands
                 }
             }
 
-            string assignedRole = await _userManager.Users.AnyAsync() ? "User" : "Admin";
+            string assignedRole = await _userManager.Users.CountAsync() > 3 ? "Customer" : "Admin";
+            user.Role = assignedRole; // Assign role based on user count
+
+
+            IdentityResult result = await _userManager.CreateAsync(user, request.registerRequest.Password);
+            if (!result.Succeeded)
+            {
+                string errorMessages = string.Join(", ", result.Errors.Select(e => e.Description));
+                return Result<RegisterCommandResponse>.Failure(ErrorCode.Unauthorized, errorMessages);
+            }
+
+            
             await _userManager.AddToRoleAsync(user, assignedRole);
 
             DateTime expired = DateTime.Now.AddHours(3);

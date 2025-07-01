@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RecyclingSystem.Infrastructure.Context;
 
@@ -11,9 +12,11 @@ using RecyclingSystem.Infrastructure.Context;
 namespace RecyclingSystem.Infrastructure.Migrations
 {
     [DbContext(typeof(RecyclingDbContext))]
-    partial class RecyclingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250701010557_v_2")]
+    partial class v_2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

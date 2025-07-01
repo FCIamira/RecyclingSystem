@@ -16,17 +16,15 @@ namespace RecyclingSystem.Domain.Models
         public string FullName { get; set; }
 
         [Required]
-        [RegularExpression("Customer|Employee|Admin", ErrorMessage = "Invalid role")]
+        [RegularExpression("Customer|Employee|Admin|Manager", ErrorMessage = "Invalid role")]
         public string Role { get; set; }
 
         [Range(0, int.MaxValue)]
         public int TotalPoints { get; set; } = 0;
 
-        [Required]
-        public string Address { get; set; }
+        public string? Address { get; set; }
 
-        [Required]
-        public string ProfilePictureUrl { get; set; }
+        public string? ProfilePictureUrl { get; set; }
 
         [Required]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
