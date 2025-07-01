@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RecyclingSystem.Domain.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace RecyclingSystem.Domain.Interfaces
 {
-    internal interface IRewardRedemptions
+    public interface IRewardRedemptions:IGenericRepo<RewardRedemptions,int>
+
     {
     }
 }
