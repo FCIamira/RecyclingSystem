@@ -39,7 +39,7 @@ namespace RecyclingSystem.API.Controllers
 
         #region Login
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginRequest model)
+        public async Task<IActionResult> Login([FromForm] LoginRequest model)
         {
             if (!ModelState.IsValid)
             {

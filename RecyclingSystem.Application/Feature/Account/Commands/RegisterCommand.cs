@@ -43,7 +43,7 @@ namespace RecyclingSystem.Application.Feature.Account.Commands
                 return Result<RegisterCommandResponse>.Failure(ErrorCode.Unauthorized, "Email is already registered.");
             }
 
-            if (await _userManager.Users.AnyAsync(u => u.UserName == request.registerRequest.UserName))
+            if (await _userManager.Users.AnyAsync(u => u.UserName == $"{request.registerRequest.FirstName}{request.registerRequest.LastName}"))
             {
                 return Result<RegisterCommandResponse>.Failure(ErrorCode.Unauthorized, "UserName is already registered.");
             }
@@ -51,10 +51,11 @@ namespace RecyclingSystem.Application.Feature.Account.Commands
             ApplicationUser user = new ApplicationUser()
             {
                
-                UserName = request.registerRequest.UserName,
+                UserName = $"{request.registerRequest.FirstName}{request.registerRequest.LastName}",
                 Email = request.registerRequest.EmailAddress,
                 FullName = $"{request.registerRequest.FirstName} {request.registerRequest.LastName}",
-                //Address = request.registerRequest.Address,
+                Address = request.registerRequest.Address,
+                PhoneNumber= request.registerRequest.PhoneNumber,
             };
 
             string[] roles = new[] { "Admin", "Manager", "Employee", "Customer" };
