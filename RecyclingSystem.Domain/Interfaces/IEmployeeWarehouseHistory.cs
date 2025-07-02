@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace RecyclingSystem.Domain.Interfaces
 {
-    public interface IRewardRedemptions:IGenericRepo<RewardRedemptions,int>
-
+    public interface IEmployeeWarehouseHistory : IGenericRepo<EmployeeWarehouseHistory, int>
     {
+
     }
 }
