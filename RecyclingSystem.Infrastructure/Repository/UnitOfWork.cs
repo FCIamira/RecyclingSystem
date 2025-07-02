@@ -64,7 +64,23 @@ namespace RecyclingSystem.Infrastructure.Repository
                 }
                 return _warehouseInventory;
             }
-        } 
+        }
+
+        public IEmployeeWarehouseHistory employeeWarehouseHistory => throw new NotImplementedException();
+
+        public IMaterials materials => throw new NotImplementedException();
+
+        public INotification notification => throw new NotImplementedException();
+
+        public IPickupItem pickupItem => throw new NotImplementedException();
+
+        public IPickupRequest pickupRequest => throw new NotImplementedException();
+
+        public IPointsHistory pointsHistory => throw new NotImplementedException();
+
+        public IRewardRedemptions rewardRedemptions => throw new NotImplementedException();
+
+        public IRewards rewards => throw new NotImplementedException();
         #endregion
         public async Task BeginTransactionAsync()
         {
