@@ -72,9 +72,6 @@ namespace RecyclingSystem.Infrastructure.Repository
             return _dbSet.Where(expression);
         }
 
-        public async Task SaveAsync()
-        {
-            await context.SaveChangesAsync();
-        }
+
     }
 }

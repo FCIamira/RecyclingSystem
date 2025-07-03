@@ -20,10 +20,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DTOs\MaterialDTOs\" />
-    <Folder Include="DTOs\RewardsDTOs\" />
     <Folder Include="DTOs\PickupItemDTOs\" />
-    <Folder Include="DTOs\PickupRequestDTOs\" />
+    <Folder Include="DTOs\RewardsDTOs\" />
+    <Folder Include="Feature\PickupRequest\Commands\" />
   </ItemGroup>
 
 </Project>

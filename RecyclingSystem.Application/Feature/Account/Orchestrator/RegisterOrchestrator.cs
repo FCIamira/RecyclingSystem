@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using RecyclingSystem.Application.DTOs.AccountDTOs;
 using RecyclingSystem.Application.Feature.Account.Commands;
-using RecyclingSystem.Application.Validators;
+using RecyclingSystem.Application.Behaviors;
 using System;
 using System.Collections.Generic;
 using System.Linq;

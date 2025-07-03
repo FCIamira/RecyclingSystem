@@ -12,8 +12,8 @@ using RecyclingSystem.Infrastructure.Context;
 namespace RecyclingSystem.Infrastructure.Migrations
 {
     [DbContext(typeof(RecyclingDbContext))]
-    [Migration("20250701010557_v_2")]
-    partial class v_2
+    [Migration("20250703035842_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

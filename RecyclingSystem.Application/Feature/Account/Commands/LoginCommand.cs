@@ -1,5 +1,5 @@
 ﻿using RecyclingSystem.Application.DTOs.AccountDTOs;
-using RecyclingSystem.Application.Validators;
+using RecyclingSystem.Application.Behaviors;
 using RecyclingSystem.Domain.Enums;
 using RecyclingSystem.Domain.Models;
 using MediatR;

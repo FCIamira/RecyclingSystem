@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-namespace RecyclingSystem.Application.Validators
+namespace RecyclingSystem.Application.Behaviors
 {
     public class Result<T>
     {
