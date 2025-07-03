@@ -5,8 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper.QueryableExtensions;
+using RecyclingSystem.Application.Mapping;
 
-namespace RecyclingSystem.Application.DTOs.Mapping
+namespace RecyclingSystem.Application.Mapping
 {
     public static class MapperServices
     {

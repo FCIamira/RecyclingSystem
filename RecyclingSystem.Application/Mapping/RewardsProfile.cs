@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RecyclingSystem.Application.DTOs.Mapping
+namespace RecyclingSystem.Application.Mapping
 {
-    internal class PickupItemProfile
+    internal class RewardsProfile
     {
     }
 }
