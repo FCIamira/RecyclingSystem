@@ -5,7 +5,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace RecyclingSystem.Domain.Interfaces
 {
     public interface IGenericRepo<T, TId> where T : BaseModel<TId>

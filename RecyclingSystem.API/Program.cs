@@ -26,7 +26,8 @@ namespace RecyclingSystem.API
             // Add services to the container.
             #region Injection
             builder.Services.AddDbContext<RecyclingDbContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+               // options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+               options.UseSqlServer(builder.Configuration.GetConnectionString("Madonna"))
                 );
 
             builder.Services.AddScoped(typeof(IGenericRepo<,>), typeof(GenericRepo<,>));

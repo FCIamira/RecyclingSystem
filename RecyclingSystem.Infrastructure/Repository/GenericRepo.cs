@@ -3,12 +3,12 @@ using RecyclingSystem.Domain.Common;
 using RecyclingSystem.Domain.Interfaces;
 using RecyclingSystem.Infrastructure.Context;
 using System.Linq.Expressions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
+//using System;
+//using System.Collections.Generic;
+//using System.Linq;
+//using System.Linq.Expressions;
+//using System.Text;
+//using System.Threading.Tasks;
 
 namespace RecyclingSystem.Infrastructure.Repository
 {
