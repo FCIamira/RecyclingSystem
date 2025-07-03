@@ -11,6 +11,9 @@ namespace RecyclingSystem.Domain.Interfaces
         IFactoryOrder factoryOrders { get; }
         IWarehouse warehouse { get; }
         IWarehouseInventory warehouseInventory { get; }
+        IPickupItem pickupItem { get; }
+        IPickupRequest pickupRequest { get; }
+        IMaterials materials { get; }
         Task SaveChangesAsync();
         Task BeginTransactionAsync();
         Task CommitAsync();

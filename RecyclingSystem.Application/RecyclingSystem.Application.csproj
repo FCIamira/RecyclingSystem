@@ -18,4 +18,10 @@
     <ProjectReference Include="..\RecyclingSystem.Domain\RecyclingSystem.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Feature\Material\Commands\" />
+    <Folder Include="Feature\Material\Queries\" />
+    <Folder Include="Feature\PickupRequest\Orchestrator\" />
+  </ItemGroup>
+
 </Project>
