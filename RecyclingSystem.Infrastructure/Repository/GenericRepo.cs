@@ -30,7 +30,7 @@ namespace RecyclingSystem.Infrastructure.Repository
 
         public async Task<IEnumerable<T>> GetAll()
         {
-            return await _dbSet.ToListAsync();
+            return await _dbSet.Where(e => EF.Property<bool>(e, "IsDeleted") == false).ToListAsync();
         }
 
         public async Task<T?> GetById(TId id)
@@ -42,9 +42,14 @@ namespace RecyclingSystem.Infrastructure.Repository
         public async Task Remove(TId id)
         {
             var entity = await _dbSet.FindAsync(id);
-            if (entity != null)
+            if (entity == null) return;
+
+            var property = typeof(T).GetProperty("IsDeleted");
+            if (property != null)
             {
-                _dbSet.Remove(entity);
+                property.SetValue(entity, true);
+                context.Entry(entity).State = EntityState.Modified;
+                await context.SaveChangesAsync();
             }
         }
         public async Task<bool> RemoveByExpression(Expression<Func<T, bool>> predicate)
@@ -67,10 +72,11 @@ namespace RecyclingSystem.Infrastructure.Repository
             }
         }
 
-        public IQueryable<T> GetAllWithFilter(Expression<Func<T, bool>> expression)
-        {
-            return _dbSet.Where(expression);
-        }
+      public IQueryable<T> GetAllWithFilter(Expression<Func<T, bool>> expression)
+{
+    return _dbSet.Where(expression).Where(e => EF.Property<bool>(e, "IsDeleted") == false);
+}
+
 
 
     }

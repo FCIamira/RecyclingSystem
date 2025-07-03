@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RecyclingSystem.Application.Feature.Rewards.Query;
 using Microsoft.EntityFrameworkCore;
+using RecyclingSystem.Application.Feature.Rewards.Command;
 namespace RecyclingSystem.API.Controllers
 {
     [Route("api/[controller]")]
@@ -39,6 +40,14 @@ namespace RecyclingSystem.API.Controllers
         {
             var rewards = await mediator.Send(new GetAllRewardsByRangeOfPointsQuery { Max = max,Min=min });
             return Ok(rewards);
+        }
+
+        [HttpDelete("{id}")]
+
+        public async Task<IActionResult> remove(int id)
+        {
+            await mediator.Send(new DeleteRewardCommand { Id=id });
+            return Ok();
         }
     }
 }
