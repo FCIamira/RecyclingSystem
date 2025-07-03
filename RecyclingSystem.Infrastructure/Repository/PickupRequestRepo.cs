@@ -1,6 +1,7 @@
 ﻿using RecyclingSystem.Domain.Interfaces;
 using RecyclingSystem.Domain.Models;
 using RecyclingSystem.Infrastructure.Context;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,5 +18,15 @@ namespace RecyclingSystem.Infrastructure.Repository
         {
             context = _context;
         }
+
+        public Task<List<PickupRequest>> GetAllDetails()
+        {
+            return context.PickupRequests
+                .Include(p => p.PickupItems)
+                 .ThenInclude(i => i.Material)
+                .Include(p => p.Customer)
+                .ToListAsync();
+        }
+
     }
 }
