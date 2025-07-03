@@ -1,19 +1,19 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+ï»¿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using RecyclingSystem.Application.Feature.Account.Commands;
+using RecyclingSystem.Application.Feature.PickupRequest.Queries.GetAllPickupRequests;
+using RecyclingSystem.Application.Mapping;
 using RecyclingSystem.Domain.Interfaces;
 using RecyclingSystem.Domain.Models;
 using RecyclingSystem.Infrastructure.Context;
 using RecyclingSystem.Infrastructure.Repository;
 using System.Text;
 using AutoMapper;
+using System.Security.Claims;
 using Microsoft.Extensions.DependencyInjection;
-using RecyclingSystem.Application.Mapping;
 
 namespace RecyclingSystem.API
 {
@@ -23,129 +23,176 @@ namespace RecyclingSystem.API
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-            #region Injection
+            // Logging
+            builder.Services.AddLogging(logging =>
+            {
+                logging.AddConsole();
+                logging.AddDebug();
+            });
+
+            // DbContext
             builder.Services.AddDbContext<RecyclingDbContext>(options =>
-               // options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
-               options.UseSqlServer(builder.Configuration.GetConnectionString("Madonna"))
+
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+               //options.UseSqlServer(builder.Configuration.GetConnectionString("Madonna"))
                 );
 
+
+
+            // Repositories
             builder.Services.AddScoped(typeof(IGenericRepo<,>), typeof(GenericRepo<,>));
-
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-           
 
-
-            #endregion
-
+            // Controllers
             builder.Services.AddControllers();
 
-            #region JWT
-
+            // CORS
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("MyPolicy", policy =>
-                     policy.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin()
-                  );
+                    policy.WithOrigins("http://localhost:4200")
+                          .AllowAnyMethod()
+                          .AllowAnyHeader());
             });
 
+            // Identity
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole<int>>(options =>
+            {
+                options.User.RequireUniqueEmail = true;
+                options.SignIn.RequireConfirmedAccount = false;
+            })
+            .AddEntityFrameworkStores<RecyclingDbContext>()
+            .AddDefaultTokenProviders();
 
-            //Setting Authanticatio  Middleware check using JWTToke
+            // JWT Authentication
             builder.Services.AddAuthentication(options =>
             {
-                options.DefaultAuthenticateScheme =
-                    JwtBearerDefaults.AuthenticationScheme;//check using jwt toke
-                options.DefaultChallengeScheme =
-                    JwtBearerDefaults.AuthenticationScheme; //redrect response in case not found cookie | token
-                options.DefaultScheme =
-                    JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(options =>
             {
                 options.SaveToken = true;
                 options.RequireHttpsMetadata = false;
-                options.TokenValidationParameters = new()
+                options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = true,
-                    ValidIssuer = builder.Configuration["JWT:Iss"],//proivder
+                    ValidIssuer = builder.Configuration["JWT:Iss"],
                     ValidateAudience = true,
                     ValidAudience = builder.Configuration["JWT:Aud"],
-                    IssuerSigningKey = new SymmetricSecurityKey
-                    (Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]))
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.Zero,
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"])),
+                    NameClaimType = ClaimTypes.Name,
+                    RoleClaimType = ClaimTypes.Role
+                };
+                options.Events = new JwtBearerEvents
+                {
+                    OnTokenValidated = context =>
+                    {
+                        var claims = context.Principal?.Claims.Select(c => $"{c.Type}: {c.Value}") ?? new List<string>();
+                        var logger = context.HttpContext.RequestServices.GetRequiredService<ILogger<Program>>();
+                        logger.LogInformation("âœ… JWT Validated. Claims: {Claims}", string.Join(", ", claims));
+                        logger.LogInformation("Principal Identity Authenticated: {IsAuthenticated}", context.Principal?.Identity?.IsAuthenticated);
+                        logger.LogInformation("HttpContext.User Authenticated: {IsAuthenticated}", context.HttpContext.User?.Identity?.IsAuthenticated);
+                        context.HttpContext.User = context.Principal ?? context.HttpContext.User;
+                        return Task.CompletedTask;
+                    },
+                    OnAuthenticationFailed = context =>
+                    {
+                        var logger = context.HttpContext.RequestServices.GetRequiredService<ILogger<Program>>();
+                        logger.LogError("âŒ Authentication Failed: {Message}", context.Exception.Message);
+                        logger.LogInformation("Authorization Header: {Header}", context.HttpContext.Request.Headers["Authorization"]);
+                        return Task.CompletedTask;
+                    },
+                    OnChallenge = context =>
+                    {
+                        var logger = context.HttpContext.RequestServices.GetRequiredService<ILogger<Program>>();
+                        logger.LogWarning("âŒ JWT Challenge: {Error} - {ErrorDescription}", context.Error, context.ErrorDescription);
+                        logger.LogInformation("Authorization Header: {Header}", context.HttpContext.Request.Headers["Authorization"]);
+                        return Task.CompletedTask;
+                    },
+                    OnMessageReceived = context =>
+                    {
+                        var logger = context.HttpContext.RequestServices.GetRequiredService<ILogger<Program>>();
+                        logger.LogInformation("Received Token: {Token}", context.Token ?? "(null)");
+                        logger.LogInformation("Authorization Header: {Header}", context.HttpContext.Request.Headers["Authorization"]);
+                        return Task.CompletedTask;
+                    }
                 };
             });
 
-            #endregion
-
-            //builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            // AutoMapper
             builder.Services.AddAutoMapper(typeof(PickupRequestProfile).Assembly);
 
+            // MediatR
+            builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(GetAllPickupRequestsQuery).Assembly));
 
-            #region Identity
-            builder.Services.AddIdentity<ApplicationUser, IdentityRole<int>>()
-            .AddEntityFrameworkStores<RecyclingDbContext>()
-            .AddDefaultTokenProviders();
-
-
-            #endregion
-            builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(LoginCommand).Assembly));
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+            // Swagger
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
-            
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-
-            builder.Services.AddSwaggerGen();
-            #region swagger
             builder.Services.AddSwaggerGen(swagger =>
             {
-                //This is to generate the Default UI of Swagger Documentation    
                 swagger.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
-                    Title = "ASP.NET 5 Web API",
-                    Description = " ITI Projrcy"
+                    Title = "ASP.NET 5 Web API",
+                    Description = "ITI Project"
                 });
-                // To Enable authorization using Swagger (JWT)    
-                swagger.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+
+                swagger.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Name = "Authorization",
-                    Type = SecuritySchemeType.ApiKey,
-                    Scheme = "Bearer",
+                   // Type = SecuritySchemeType.Http,
+                     Type = SecuritySchemeType.ApiKey,
+
+                    Scheme = "bearer",
                     BearerFormat = "JWT",
                     In = ParameterLocation.Header,
-                    Description = "Enter 'Bearer' [space] and then your valid token in the text input below.\r\n\r\nExample: \"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\"",
+                    Description = "Enter 'Bearer' [space] and then your valid token in the text input below.\r\n\r\nExample: \"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\""
                 });
-                swagger.AddSecurityRequirement(new OpenApiSecurityRequirement
+              //  swagger.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+//                {
+//                    Name = "Authorization",
+//                    Type = SecuritySchemeType.ApiKey,
+//                    Scheme = "Bearer",
+//                    BearerFormat = "JWT",
+//                    In = ParameterLocation.Header,
+//                    Description = "EnterÂ 'Bearer'Â [space]Â andÂ thenÂ yourÂ validÂ tokenÂ inÂ theÂ textÂ inputÂ below.\r\n\r\nExample:Â \"BearerÂ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\"",
+//                });
+//                swagger.AddSecurityRequirement(new OpenApiSecurityRequirement
+//                {
+//                    {
+//                    new OpenApiSecurityScheme
+//                    {
+//                    Reference = new OpenApiReference
+//                    {
+//                    Type = ReferenceType.SecurityScheme,
+//                    Id = "Bearer"
+//                    }
+              swagger.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
                     {
-                    new OpenApiSecurityScheme
-                    {
-                    Reference = new OpenApiReference
-                    {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        new string[] {}
                     }
-                    },
-                    new string[] {}
-                    }
-                    });
+                });
             });
-
-            #endregion
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
-            //if (app.Environment.IsDevelopment())
-            //{
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            //}
+            app.UseSwagger();
+            app.UseSwaggerUI();
+            app.UseCors("MyPolicy");
             app.UseAuthentication();
             app.UseAuthorization();
-
-
             app.MapControllers();
 
             app.Run();

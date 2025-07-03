@@ -86,7 +86,7 @@ namespace RecyclingSystem.Application.Feature.Account.Commands
             {
                 ApplicationUser = user,
                 Expired = expired
-            });
+            }, "Register successful");
         }
     }
 }
