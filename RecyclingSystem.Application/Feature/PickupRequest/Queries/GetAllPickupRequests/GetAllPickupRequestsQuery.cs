@@ -48,27 +48,27 @@ namespace RecyclingSystem.Application.Feature.PickupRequest.Queries.GetAllPickup
             _logger.LogInformation("Getting all pickup requests for the current user.");
             try
             {
-                //var httpContext = _httpContextAccessor.HttpContext;
-                //if (httpContext == null)
-                //{
-                //    _logger.LogError("HttpContext is null");
-                //    return Result<List<GetAllRequestDto>>.Failure(ErrorCode.Unauthorized, "No HttpContext.");
-                //}
-                //var user = await _userManager.GetUserAsync(httpContext.User);
+                var httpContext = _httpContextAccessor.HttpContext;
+                if (httpContext == null)
+                {
+                    _logger.LogError("HttpContext is null");
+                    return Result<List<GetAllRequestDto>>.Failure(ErrorCode.Unauthorized, "No HttpContext.");
+                }
 
-                //if (user == null)
-                //{
-                //    _logger.LogError("Unauthorized access attempt - user not found in context.");
-                //    return Result<List<GetAllRequestDto>>.Failure(ErrorCode.Unauthorized, "User not found.");
-                //}
+                var user = await _userManager.GetUserAsync(httpContext.User);
+                if (!httpContext.User.Identity.IsAuthenticated)
+                {
+                    _logger.LogError("User is not authenticated.");
+                    return Result<List<GetAllRequestDto>>.Failure(ErrorCode.Unauthorized, "User is not authenticated.");
+                }
                 var pickupRequests = await _unitOfWork.pickupRequest.GetAllDetails();
+                var userPickupRequests = pickupRequests?.Where(p => p.CustomerId == user.Id).ToList();
                 if (pickupRequests == null)
                 {
                     _logger.LogWarning("No pickup requests found.");
                     return Result<List<GetAllRequestDto>>.Failure(ErrorCode.NotFound, "No pickup requests available.");
                 }
-                var pickupRequestDTo = _mapper.Map<List<GetAllRequestDto>>(pickupRequests);
-
+                var pickupRequestDTo = _mapper.Map<List<GetAllRequestDto>>(userPickupRequests);
                 return Result<List<GetAllRequestDto>>.Success(pickupRequestDTo);
             }
 
