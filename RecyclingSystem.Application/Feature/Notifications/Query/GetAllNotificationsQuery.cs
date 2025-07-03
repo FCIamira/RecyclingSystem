@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using MediatR;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
@@ -9,6 +11,7 @@ using RecyclingSystem.Domain.Enums;
 using RecyclingSystem.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
@@ -25,12 +28,15 @@ namespace RecyclingSystem.Application.Feature.Notifications.Query
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger _logger;
         private readonly IHttpContextAccessor _contextAccessor;
+        private readonly IMapper _mapper;
+
         public GetAllNotificationsQueryHandler(IUnitOfWork unitOfWork, ILogger<GetAllNotificationsQueryHandler> logger,
-            IHttpContextAccessor httpContextAccessor)
+            IHttpContextAccessor httpContextAccessor, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _logger = logger;
             _contextAccessor = httpContextAccessor;
+            _mapper = mapper;
         }
 
         public async Task<Result<List<GetAllNotificationDto>>> Handle(GetAllNotificationsQuery request, CancellationToken cancellationToken)
@@ -46,23 +52,19 @@ namespace RecyclingSystem.Application.Feature.Notifications.Query
                 }
                 int userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-                var allNotifications = await _unitOfWork.notification.GetAll();
-                var userNotify = allNotifications?.Where(u => u.UserId == userId).OrderByDescending(u => u.CreatedAt).ToList();
-                if (allNotifications == null || !allNotifications.Any())
+                var userNotifications = _unitOfWork.notification
+                    .GetAllWithFilter(u => u.UserId == userId)
+                    .OrderByDescending(u => u.CreatedAt)
+                    .ProjectTo<GetAllNotificationDto>(_mapper.ConfigurationProvider)
+                    .ToList();
+
+                if (userNotifications == null || !userNotifications.Any())
                 {
                     _logger.LogWarning("Not found Notifications.");
                     return Result<List<GetAllNotificationDto>>.Failure(ErrorCode.NotFound, "No notifications available.");
                 }
 
-
-                var notificationsDto = userNotify.Select(n => new GetAllNotificationDto
-                {
-                    UserId = n.UserId,
-                    Title = n.Title ?? "",
-                    Message = n.Message ?? "",
-                    CreatedAt = n.CreatedAt
-                }).ToList();
-                return Result<List<GetAllNotificationDto>>.Success(notificationsDto);
+                return Result<List<GetAllNotificationDto>>.Success(userNotifications);
             }
             catch (Exception ex)
             {
