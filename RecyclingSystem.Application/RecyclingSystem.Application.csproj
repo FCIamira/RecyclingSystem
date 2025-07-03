@@ -21,7 +21,6 @@
 
   <ItemGroup>
     <Folder Include="DTOs\PickupItemDTOs\" />
-    <Folder Include="DTOs\RewardsDTOs\" />
     <Folder Include="Feature\PickupRequest\Commands\" />
   </ItemGroup>
 
