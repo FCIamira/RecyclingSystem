@@ -19,14 +19,6 @@ namespace RecyclingSystem.Infrastructure.Repository
             _context = context;
         }
 
-        public Task<List<Notification>> GetNotifications(Expression<Func<Notification, bool>> filter)
-        {
-            var notifications = _context.Notifications
-                .Where(filter)
-                .OrderByDescending(n => n.CreatedAt)
-                .ToListAsync();
-            return notifications;
-        }
     }
     
 }

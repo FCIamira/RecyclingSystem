@@ -46,18 +46,20 @@ namespace RecyclingSystem.Application.Feature.Notifications.Query
                 }
                 int userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-                var userNotifications = await _unitOfWork.notification.GetNotifications(u => u.UserId == userId);
-                if (userNotifications == null || !userNotifications.Any())
+                var allNotifications = await _unitOfWork.notification.GetAll();
+                var userNotify = allNotifications?.Where(u => u.UserId == userId).OrderByDescending(u => u.CreatedAt).ToList();
+                if (allNotifications == null || !allNotifications.Any())
                 {
                     _logger.LogWarning("Not found Notifications.");
                     return Result<List<GetAllNotificationDto>>.Failure(ErrorCode.NotFound, "No notifications available.");
                 }
 
-                var notificationsDto = userNotifications.Select(n => new GetAllNotificationDto
+
+                var notificationsDto = userNotify.Select(n => new GetAllNotificationDto
                 {
                     UserId = n.UserId,
-                    Title = n.Title,
-                    Message = n.Message,
+                    Title = n.Title ?? "",
+                    Message = n.Message ?? "",
                     CreatedAt = n.CreatedAt
                 }).ToList();
                 return Result<List<GetAllNotificationDto>>.Success(notificationsDto);

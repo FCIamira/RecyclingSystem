@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RecyclingSystem.API.Validators;
 using RecyclingSystem.Application.Behaviors;
@@ -18,6 +19,7 @@ namespace RecyclingSystem.API.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAll()
         {
             var notifications = await _mediator.Send(new GetAllNotificationsQuery());

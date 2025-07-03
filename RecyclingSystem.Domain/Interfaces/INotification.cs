@@ -10,6 +10,6 @@ namespace RecyclingSystem.Domain.Interfaces
 {
     public interface INotification : IGenericRepo<Notification, int>
     {
-        Task<List<Notification>> GetNotifications(Expression<Func<Notification, bool>> filter);
+
     }
 }
