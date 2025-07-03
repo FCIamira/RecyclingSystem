@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using RecyclingSystem.Application.Feature.Rewards.Query;
+//using RecyclingSystem.Application.Feature.Rewards.Query;
 
 namespace RecyclingSystem.API.Controllers
 {
@@ -16,11 +16,11 @@ namespace RecyclingSystem.API.Controllers
             this.mediator = mediator;
         }
 
-        [HttpGet]
-        public IActionResult GetAll()
-        {
-         var rewards=   mediator.Send(new GetAllRewardsQuery());
-            return Ok(rewards);
-        }
+        //[HttpGet]
+        //public IActionResult GetAll()
+        //{
+        //    var rewards = mediator.Send(new GetAllRewardsQuery());
+        //    return Ok(rewards);
+        //}
     }
 }
