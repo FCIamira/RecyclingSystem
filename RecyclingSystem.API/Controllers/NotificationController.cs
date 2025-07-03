@@ -20,11 +20,6 @@ namespace RecyclingSystem.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            if (!ModelState.IsValid)
-            {
-                return Result<string>.Failure(ErrorCode.BadRequest, "Invalid model state").ToActionResult();
-            }
-
             var notifications = await _mediator.Send(new GetAllNotificationsQuery());
             return Ok(notifications);
         }
