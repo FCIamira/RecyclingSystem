@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -12,6 +11,9 @@ using RecyclingSystem.Domain.Models;
 using RecyclingSystem.Infrastructure.Context;
 using RecyclingSystem.Infrastructure.Repository;
 using System.Text;
+using AutoMapper;
+using Microsoft.Extensions.DependencyInjection;
+using RecyclingSystem.Application.Mapping;
 
 namespace RecyclingSystem.API
 {
@@ -73,6 +75,10 @@ namespace RecyclingSystem.API
 
             #endregion
 
+            //builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            builder.Services.AddAutoMapper(typeof(PickupRequestProfile).Assembly);
+
+
             #region Identity
             builder.Services.AddIdentity<ApplicationUser, IdentityRole<int>>()
             .AddEntityFrameworkStores<RecyclingDbContext>()
@@ -80,10 +86,7 @@ namespace RecyclingSystem.API
 
 
             #endregion
-
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(LoginCommand).Assembly));
-
-
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
