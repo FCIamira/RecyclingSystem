@@ -22,13 +22,13 @@
   <ItemGroup>
     <Folder Include="DTOs\PickupItemDTOs\" />
     <Folder Include="DTOs\RewardsDTOs\" />
+    <Folder Include="Feature\PickupItems\Queries\" />
     <Folder Include="Feature\PickupRequest\Commands\" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Feature\Material\Commands\" />
     <Folder Include="Feature\Material\Queries\" />
-    <Folder Include="Feature\PickupRequest\Orchestrator\" />
   </ItemGroup>
 
 </Project>

@@ -1,12 +1,16 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
+using RecyclingSystem.Application.Behaviors;
 using RecyclingSystem.Application.DTOs.PickupRequestDTOs;
-using RecyclingSystem.Application.Validators;
+using RecyclingSystem.Application.Feature.PickupRequest.Queries.GetAllPickupRequests;
 using RecyclingSystem.Domain.Enums;
 using RecyclingSystem.Domain.Interfaces;
 using RecyclingSystem.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -26,9 +30,14 @@ namespace RecyclingSystem.Application.Feature.PickupRequest.Commands
     public class CreatePickupRequestCommandHandler : IRequestHandler<CreatePickupRequestCommand, Result<CreatePickupRequestCommandResponse>>
     {
         private readonly IUnitOfWork _unitOfWork;
-        public CreatePickupRequestCommandHandler(IUnitOfWork unitOfWork)
+        private readonly ILogger<GetAllPickupRequestsQueryHandler> _logger;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public CreatePickupRequestCommandHandler(IUnitOfWork unitOfWork,
+            ILogger<GetAllPickupRequestsQueryHandler> logger, IHttpContextAccessor httpContextAccessor)
         {
             _unitOfWork = unitOfWork;
+            _logger = logger;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<Result<CreatePickupRequestCommandResponse>> Handle(CreatePickupRequestCommand request, CancellationToken cancellationToken)
@@ -42,7 +51,10 @@ namespace RecyclingSystem.Application.Feature.PickupRequest.Commands
                 return Result<CreatePickupRequestCommandResponse>.Failure(ErrorCode.BadRequest, "Pickup request data is null.");
             }
 
-            // Use the fully qualified name for the class to avoid ambiguity with the namespace
+            
+            //string? CustomerIdString = _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+            //int? CustomerId = int.TryParse(CustomerIdString, out int customerId) ? customerId : null;
+
             var pickupRequestObject = new Domain.Models.PickupRequest
             {
                 CustomerId = request.CustomerId,

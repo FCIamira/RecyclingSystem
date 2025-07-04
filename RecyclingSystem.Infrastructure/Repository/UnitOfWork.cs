@@ -200,53 +200,7 @@ namespace RecyclingSystem.Infrastructure.Repository
                 return _rewards;
             }
         }
-
         #endregion
-
-
-        #region pickupItem
-        public IPickupItem pickupItem
-        {
-            get
-            {
-                if (_pickupItem is null)
-                {
-                    _pickupItem = new PickupItemRepo(_context);
-                }
-                return _pickupItem;
-            }
-        }
-        #endregion
-
-
-        #region pickupRequest
-        public IPickupRequest pickupRequest
-            {
-            get
-            {
-                if (_pickupRequest is null)
-                {
-                    _pickupRequest = new PickupRequestRepo(_context);
-                }
-                return _pickupRequest;
-            }
-        }
-        #endregion
-
-        #region materials
-        public IMaterials materials
-        {
-            get
-            {
-                if (_materials is null)
-                {
-                    _materials = new MaterialRepo(_context);
-                }
-                return _materials;
-            }
-        }
-        #endregion
-
 
         public async Task BeginTransactionAsync()
         {
