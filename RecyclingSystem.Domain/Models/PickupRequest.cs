@@ -10,7 +10,7 @@ namespace RecyclingSystem.Domain.Models
     {
         public int CustomerId { get; set; }
 
-        public int EmployeeId { get; set; }
+        public int? EmployeeId { get; set; }
 
         public DateTime RequestedDate { get; set; }
 
@@ -25,7 +25,7 @@ namespace RecyclingSystem.Domain.Models
 
         public DateTime? DateCollected { get; set; }
 
-        public int TotalPointsGiven { get; set; }
+        public int? TotalPointsGiven { get; set; }
 
         [ForeignKey("CustomerId")]
         public virtual ApplicationUser? Customer { get; set; }

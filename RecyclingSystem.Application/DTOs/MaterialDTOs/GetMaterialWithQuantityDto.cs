@@ -8,7 +8,7 @@ namespace RecyclingSystem.Application.DTOs.MaterialDTOs
 {
     public class GetMaterialWithQuantityDto
     {
-        public string Name { get; set; } = string.Empty;
-        public int Quantity { get; set; }
+        public string Name { get; set; }=string.Empty;
+        public int Quantity { get; set; } = 0;
     }
 }

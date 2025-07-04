@@ -4,6 +4,7 @@ using MediatR;
 using RecyclingSystem.Application.Feature.PickupRequest.Queries.GetAllPickupRequests;
 using RecyclingSystem.API.Validators;
 using Microsoft.AspNetCore.Authorization;
+using RecyclingSystem.Application.Feature.UserInfo.Queries;
 namespace RecyclingSystem.API.Controllers
 {
     [Route("api/[controller]")]
@@ -54,7 +55,16 @@ namespace RecyclingSystem.API.Controllers
         //    });
         //}
 
+        #region GetTotalQuantity
+        [Authorize]
+        [HttpGet("TotalQuantitywith-userName")]
 
+        public async Task<IActionResult> GetTotalQuantity()
+        {
+            var result = await _mediator.Send(new GetUserTotalQuantityQuery());
+            return result.ToActionResult();
+        }
+        #endregion
 
 
 
