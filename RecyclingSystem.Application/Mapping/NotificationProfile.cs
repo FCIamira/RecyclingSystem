@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using RecyclingSystem.Application.DTOs.RewardsDTOs;
+using RecyclingSystem.Application.DTOs.NotificationsDTOs;
 using RecyclingSystem.Domain.Models;
 using System;
 using System.Collections.Generic;
@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace RecyclingSystem.Application.Mapping
 {
-    public class RewardsProfile:Profile
+    public class NotificationProfile : Profile
     {
-        public RewardsProfile() {
-        
-        CreateMap<Rewards,RewardDTO>(); 
-                }
+       public NotificationProfile()
+        {
+            CreateMap<Notification, GetAllNotificationDto>();
+        }
     }
 }

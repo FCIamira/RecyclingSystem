@@ -8,5 +8,6 @@ namespace RecyclingSystem.Domain.Interfaces
 {
     public interface IRewards:IGenericRepo<Rewards,int>
     {
+
     }
 }

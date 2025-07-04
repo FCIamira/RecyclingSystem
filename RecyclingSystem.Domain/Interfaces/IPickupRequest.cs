@@ -9,5 +9,6 @@ namespace RecyclingSystem.Domain.Interfaces
 {
     public interface IPickupRequest:IGenericRepo<PickupRequest,int>
     {
+        Task<List<PickupRequest>> GetAllDetails();
     }
 }

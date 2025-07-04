@@ -17,5 +17,7 @@ namespace RecyclingSystem.Infrastructure.Repository
         {
             context = _context;
         }
+
+        
     }
 }

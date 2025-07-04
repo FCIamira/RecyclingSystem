@@ -3,7 +3,9 @@ using RecyclingSystem.Domain.Models;
 using RecyclingSystem.Infrastructure.Context;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,11 +13,12 @@ namespace RecyclingSystem.Infrastructure.Repository
 {
     public class NotificationRepo : GenericRepo<Notification, int>, INotification
     {
-        private readonly RecyclingDbContext context;
-        public NotificationRepo(RecyclingDbContext _context) : base(_context)
+        private readonly RecyclingDbContext _context;
+        public NotificationRepo(RecyclingDbContext context) : base(context)
         {
-            context = _context;
+            _context = context;
         }
+
     }
     
 }

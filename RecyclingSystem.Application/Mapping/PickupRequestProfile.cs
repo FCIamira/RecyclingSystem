@@ -14,19 +14,35 @@ namespace RecyclingSystem.Application.Mapping
     {
         public PickupRequestProfile()
         {
-            CreateMap< PickupRequest, GetAllRequestDto>().ForMember(dest=>dest.Status,
-                opt=>opt.MapFrom(src=>src.Status.ToString()))
-                .ForMember(dest=>dest.MaterialWithQuantity,opt=>opt.MapFrom(src=>src.PickupItems !=null
-                ?src.PickupItems.Where(p=>p.Material !=null)
-                .GroupBy(p=>p.Material.Name)
-                .Select(g=>new GetMaterialWithQuantityDto
-                {
-                    Name = g.Key,
-                    Quantity = g.Sum(x => x.Quantity)
+            CreateMap<PickupRequest, GetAllRequestDto>()
+           .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.ToString()))
+           .ForMember(dest => dest.MaterialWithQuantity, opt => opt.MapFrom(src =>
+               src.PickupItems != null
+                   ? src.PickupItems
+                       .Where(p => p.Material != null)
+                       .GroupBy(p => p.Material.Name)
+                       .Select(g => new GetMaterialWithQuantityDto
+                       {
+                           Name = g.Key,
+                           Quantity = g.Sum(x => x.Quantity)
+                       }).ToList()
+                   : new List<GetMaterialWithQuantityDto>()));
 
-                }).ToList(): new List<GetMaterialWithQuantityDto>())
-                )
-                .ReverseMap();
+
+            CreateMap<PickupRequest, GetSuccessfullwithCancelDto>()
+.ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.ToString()))
+.ForMember(dest => dest.MaterialWithQuantity, opt => opt.MapFrom(src =>
+   src.PickupItems != null
+       ? src.PickupItems
+           .Where(p => p.Material != null)
+           .GroupBy(p => p.Material.Name)
+           .Select(g => new GetMaterialWithQuantityDto
+           {
+               Name = g.Key,
+               Quantity = g.Sum(x => x.Quantity)
+           }).ToList()
+       : new List<GetMaterialWithQuantityDto>()));
+
         }
     }
 }

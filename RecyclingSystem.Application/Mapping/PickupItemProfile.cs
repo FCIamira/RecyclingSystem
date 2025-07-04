@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RecyclingSystem.Application.Mapping
 {
-    internal class PickupItemProfile
+    public class PickupItemProfile
     {
     }
 }

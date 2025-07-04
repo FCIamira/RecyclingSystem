@@ -49,6 +49,7 @@ namespace RecyclingSystem.Application.Feature.Account.Commands
             {
                 foreach (var role in userRoles)
                 {
+                    Console.WriteLine("✅ ROLE IN TOKEN: " + role);
                     claim.Add(new Claim(ClaimTypes.Role, role));
                 }
             }
