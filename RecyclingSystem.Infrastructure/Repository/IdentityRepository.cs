@@ -12,15 +12,15 @@ using System.Threading.Tasks;
 
 namespace RecyclingSystem.Infrastructure.Repository
 {
-    public class IdentityRepository<T> : IIdentityRepository<T> where T : IdentityUser<int> 
+    public class IdentityRepository<T> : IIdentityRepository<T> where T : IdentityUser<int>
     {
-        private readonly RecyclingDbContext _context;
-        private readonly DbSet<T> _dbSet;
+        protected readonly RecyclingDbContext _context;
+        protected readonly DbSet<T> _dbSet;
 
         public IdentityRepository(RecyclingDbContext context)
         {
             _context = context;
-            _dbSet = _context.Set<T>();
+            _dbSet = context.Set<T>();
         }
 
         public async Task Add(T obj)
@@ -28,32 +28,29 @@ namespace RecyclingSystem.Infrastructure.Repository
             await _dbSet.AddAsync(obj);
         }
 
+        public async Task<IEnumerable<T>> GetAll()
+        {
+            return await _dbSet.Where(e => EF.Property<bool>(e, "IsDeleted") == false).ToListAsync();
+        }
+
+        public async Task<T> GetById(int id)
+        {
+            return await _dbSet.FirstOrDefaultAsync(e => e.Id == id);
+        }
+
         public async Task Remove(int id)
         {
             var entity = await _dbSet.FindAsync(id);
             if (entity != null)
             {
-                _dbSet.Remove(entity);
+                var prop = typeof(T).GetProperty("IsDeleted");
+                if (prop != null)
+                {
+                    prop.SetValue(entity, true);
+                    _context.Entry(entity).State = EntityState.Modified;
+                    await _context.SaveChangesAsync();
+                }
             }
-        }
-
-        public async Task Update(int id, T obj)
-        {
-            var existing = await _dbSet.FindAsync(id);
-            if (existing != null)
-            {
-                _context.Entry(existing).CurrentValues.SetValues(obj);
-            }
-        }
-
-        public async Task<T> GetById(int id)
-        {
-            return await _dbSet.FindAsync(id);
-        }
-
-        public IQueryable<T> GetAllWithFilter(Expression<Func<T, bool>> filter)
-        {
-            return _dbSet.Where(filter);
         }
 
         public async Task<bool> RemoveByExpression(Expression<Func<T, bool>> predicate)
@@ -61,16 +58,30 @@ namespace RecyclingSystem.Infrastructure.Repository
             var entity = await _dbSet.FirstOrDefaultAsync(predicate);
             if (entity != null)
             {
-                _dbSet.Remove(entity);
-                await _context.SaveChangesAsync();
+                var prop = typeof(T).GetProperty("IsDeleted");
+                if (prop != null)
+                {
+                    prop.SetValue(entity, true);
+                    _context.Entry(entity).State = EntityState.Modified;
+                    await _context.SaveChangesAsync();
+                }
                 return true;
             }
             return false;
         }
 
-        public async Task<IEnumerable<T>> GetAll()
+        public async Task Update(int id, T obj)
         {
-            return await _dbSet.ToListAsync();
+            var entity = await _dbSet.FindAsync(id);
+            if (entity != null)
+            {
+                _context.Entry(entity).CurrentValues.SetValues(obj);
+            }
+        }
+
+        public IQueryable<T> GetAllWithFilter(Expression<Func<T, bool>> filter)
+        {
+            return _dbSet.Where(filter).Where(e => EF.Property<bool>(e, "IsDeleted") == false);
         }
     }
 }

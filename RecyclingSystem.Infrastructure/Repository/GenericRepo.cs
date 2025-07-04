@@ -52,6 +52,8 @@ namespace RecyclingSystem.Infrastructure.Repository
                 await context.SaveChangesAsync();
             }
         }
+
+
         public async Task<bool> RemoveByExpression(Expression<Func<T, bool>> predicate)
         {
             var entity = await _dbSet.FirstOrDefaultAsync(predicate);
@@ -72,12 +74,10 @@ namespace RecyclingSystem.Infrastructure.Repository
             }
         }
 
-      public IQueryable<T> GetAllWithFilter(Expression<Func<T, bool>> expression)
-{
-    return _dbSet.Where(expression).Where(e => EF.Property<bool>(e, "IsDeleted") == false);
-}
-
-
+        public IQueryable<T> GetAllWithFilter(Expression<Func<T, bool>> expression)
+        {
+            return _dbSet.Where(expression).Where(e => EF.Property<bool>(e, "IsDeleted") == false);
+        }
 
     }
 }

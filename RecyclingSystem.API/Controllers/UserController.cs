@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RecyclingSystem.Application.Behaviors;
 using RecyclingSystem.Application.Feature.UserInfo.Command;
+using RecyclingSystem.Application.Feature.UserInfo.Queries;
 using RecyclingSystem.Domain.Enums;
 
 namespace RecyclingSystem.API.Controllers
@@ -31,6 +32,14 @@ namespace RecyclingSystem.API.Controllers
         {
             var message = await _mediator.Send(command);
             return Ok(new { message });
+        }
+
+        [HttpGet("{id:int}")]
+       
+        public async Task<IActionResult> GetUserInfo(int id)
+        {
+            var user = await _mediator.Send(new GetUserQuery { UserId = id });
+            return Ok(user);
         }
     }
 }
