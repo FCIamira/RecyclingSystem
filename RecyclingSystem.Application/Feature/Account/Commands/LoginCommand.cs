@@ -1,5 +1,5 @@
 ﻿using RecyclingSystem.Application.DTOs.AccountDTOs;
-using RecyclingSystem.Application.Validators;
+using RecyclingSystem.Application.Behaviors;
 using RecyclingSystem.Domain.Enums;
 using RecyclingSystem.Domain.Models;
 using MediatR;
@@ -21,6 +21,7 @@ namespace RecyclingSystem.Application.Feature.Account.Commands
     {
         public ApplicationUser ApplicationUser { get; set; }
         public DateTime Expired { get; set; }
+        public int Id { get; set; }
     }
 
     public class LoginCommandHandler : IRequestHandler<LoginCommand, Result<LoginCommandResponse>>
@@ -35,6 +36,7 @@ namespace RecyclingSystem.Application.Feature.Account.Commands
         public async Task<Result<LoginCommandResponse>> Handle(LoginCommand request, CancellationToken cancellationToken)
         {
             var user = await _userManager.FindByEmailAsync(request.loginRequest.EmailAddress);
+            
             if (user == null)
             {
                 return Result<LoginCommandResponse>.Failure(ErrorCode.NotFound, "User not found");
@@ -50,7 +52,8 @@ namespace RecyclingSystem.Application.Feature.Account.Commands
             return Result<LoginCommandResponse>.Success(new LoginCommandResponse
             {
                 ApplicationUser = user,
-                Expired = expireDate
+                Expired = expireDate,
+                Id = user.Id,
             }, "Login successful");
         }
     }

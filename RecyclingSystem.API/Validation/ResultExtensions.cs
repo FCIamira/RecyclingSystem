@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using RecyclingSystem.Application.Validators;
+using RecyclingSystem.Application.Behaviors;
 using RecyclingSystem.Domain.Enums;
 
 namespace RecyclingSystem.API.Validators

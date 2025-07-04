@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using RecyclingSystem.Application.DTOs.AccountDTOs;
 using RecyclingSystem.Application.Feature.Account.Commands;
-using RecyclingSystem.Application.Validators;
+using RecyclingSystem.Application.Behaviors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +19,7 @@ namespace RecyclingSystem.Application.Feature.Account.Orchestrator
     {
         public string Token { get; set; }
         public DateTime Expired { get; set; }
+        public int Id { get; set; }
     }
 
     public class LoginOrchestratorHandler : IRequestHandler<LoginOrchestrator, Result<LoginOrchestratorResponse>>
@@ -40,13 +41,14 @@ namespace RecyclingSystem.Application.Feature.Account.Orchestrator
             var token = await mediator.Send(new GenerateTokenCommand
             {
                 user = loginResult.Data.ApplicationUser,
-                Expired = loginResult.Data.Expired
+                Expired = loginResult.Data.Expired,
             }, cancellationToken);
 
             return Result<LoginOrchestratorResponse>.Success(new LoginOrchestratorResponse
             {
                 Token = token,
-                Expired = loginResult.Data.Expired
+                Expired = loginResult.Data.Expired,
+                Id = loginResult.Data.Id
             }, "Login successful");
         }
     }

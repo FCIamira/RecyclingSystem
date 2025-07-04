@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using RecyclingSystem.API.Validators;
 using RecyclingSystem.Application.DTOs.AccountDTOs;
 using RecyclingSystem.Application.Feature.Account.Orchestrator;
-using RecyclingSystem.Application.Validators;
+using RecyclingSystem.Application.Behaviors;
 using RecyclingSystem.Domain.Enums;
 
 namespace RecyclingSystem.API.Controllers
@@ -39,7 +39,7 @@ namespace RecyclingSystem.API.Controllers
 
         #region Login
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginRequest model)
+        public async Task<IActionResult> Login([FromForm] LoginRequest model)
         {
             if (!ModelState.IsValid)
             {

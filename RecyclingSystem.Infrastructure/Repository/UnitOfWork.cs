@@ -16,9 +16,15 @@ namespace RecyclingSystem.Infrastructure.Repository
         private IFactoryOrder _factoryOrders;
         private IWarehouse _warehouse;
         private IWarehouseInventory _warehouseInventory;
-        private IPickupItem _pickupItem;
-        private IPickupRequest _pickupRequest;
-        private IMaterials _materials;
+        IEmployeeWarehouseHistory _employeeWarehouseHistory;
+        IMaterials _materials;
+        INotification _notification;
+        IPickupItem _pickupItem;
+        IPickupRequest _pickupRequest;
+        IPointsHistory _pointsHistory;
+        IRewardRedemptions _rewardRedemptions;
+        IRewards _rewards;
+
         public UnitOfWork(RecyclingDbContext applicationDBContext)
         {
             _context = applicationDBContext;
@@ -68,6 +74,133 @@ namespace RecyclingSystem.Infrastructure.Repository
                 return _warehouseInventory;
             }
         }
+
+
+
+        #endregion
+
+        #region employeeWarehouseHistory
+        public IEmployeeWarehouseHistory employeeWarehouseHistory
+
+        {
+            get
+            {
+                if (_employeeWarehouseHistory is null)
+                {
+                    _employeeWarehouseHistory = new EmployeeWarehouseHistoryRepo(_context);
+                }
+                return _employeeWarehouseHistory;
+            }
+        }
+        #endregion
+
+        #region materials
+
+        public IMaterials materials
+        {
+            get
+            {
+                if (_materials is null)
+                {
+                    _materials = new MaterialRepo(_context);
+                }
+                return _materials;
+            }
+
+        }
+
+        #endregion
+
+
+        #region notification
+        public INotification notification {
+            get
+            {
+                if (_notification is null)
+                {
+                    _notification = new NotificationRepo(_context);
+                }
+                return _notification;
+            }
+        }
+        #endregion
+
+        #region pickupItem
+        public IPickupItem pickupItem {
+            get
+            {
+                if (_pickupItem is null)
+                {
+                    _pickupItem = new PickupItemRepo(_context);
+                }
+                return _pickupItem;
+            }
+        }
+        #endregion
+
+
+
+        #region pickupRequest
+        public IPickupRequest pickupRequest
+        {
+            get
+            {
+                if (_pickupRequest is null)
+                {
+                    _pickupRequest = new PickupRequestRepo(_context);
+
+                }
+                return _pickupRequest;
+            }
+        }
+
+        #endregion
+
+        #region pointsHistory
+        public IPointsHistory pointsHistory
+        {
+            get
+            {
+                if (_pointsHistory is null)
+                {
+                    _pointsHistory = new PointsHistoryRepo(_context);
+
+                }
+                return _pointsHistory;
+            }
+        }
+        #endregion
+
+        #region rewardRedemptions
+        public IRewardRedemptions rewardRedemptions
+        {
+            get
+            {
+                if (_rewardRedemptions is null)
+                {
+                    _rewardRedemptions = new RewardRedemptionsRepo(_context);
+
+                }
+                return _rewardRedemptions;
+            }
+        }
+
+        #endregion
+
+        #region rewards
+        public IRewards rewards
+        {
+            get
+            {
+                if (_rewards is null)
+                {
+                    _rewards = new RewardsRepo(_context);
+
+                }
+                return _rewards;
+            }
+        }
+
         #endregion
 
 
