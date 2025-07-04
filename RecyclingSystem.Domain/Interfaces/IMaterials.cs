@@ -9,5 +9,6 @@ namespace RecyclingSystem.Domain.Interfaces
 {
     public interface IMaterials:IGenericRepo<Material,int>
     {
+        Task<IQueryable<Material>> GetAllMaterialsAsync();
     }
 }

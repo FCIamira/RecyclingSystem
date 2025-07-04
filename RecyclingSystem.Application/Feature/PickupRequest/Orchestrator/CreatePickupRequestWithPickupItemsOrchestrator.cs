@@ -42,7 +42,7 @@ namespace RecyclingSystem.Application.Feature.PickupRequest.Orchestrator
         public async Task<Result<CreatePickupRequestWithPickupItemsResponse>> Handle(CreatePickupRequestWithPickupItemsOrchestrator request, CancellationToken cancellationToken)
         {
             string? CustomerIdString = _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
-            int? CustomerId = int.TryParse(CustomerIdString, out int customerId) ? customerId : 6; // Ahmed's ID for testing
+            int? CustomerId = int.TryParse(CustomerIdString, out int customerId) ? customerId : null;
 
             if (CustomerId == null)
             {
@@ -52,7 +52,7 @@ namespace RecyclingSystem.Application.Feature.PickupRequest.Orchestrator
 
             var newRequestId = await _mediator.Send(new CreatePickupRequestCommand { CreatePickupRequestDto = request.CreatePickupRequestDto, CustomerId = CustomerId ?? 0 }, cancellationToken);
 
-            await _mediator.Send(new CreatePickupItemsCommand
+            var result = await _mediator.Send(new CreatePickupItemsCommand
             {
                 PickupRequestId = newRequestId.Data.PickupRequestId,
                 PickupItems = request.CreatePickupRequestDto.PickupItems.Select(item => new CreatePickupItemDto
@@ -62,6 +62,11 @@ namespace RecyclingSystem.Application.Feature.PickupRequest.Orchestrator
                 }).ToList()
             }, cancellationToken);
 
+            if (!result.IsSuccess)
+            {
+                _logger.LogError("Failed to create pickup items for request ID {PickupRequestId}. Error: {ErrorMessage}", newRequestId.Data.PickupRequestId, result.Errorcode);
+                return Result<CreatePickupRequestWithPickupItemsResponse>.Failure(result.Errorcode, result.Message);
+            }
 
             return Result<CreatePickupRequestWithPickupItemsResponse>.Success(new CreatePickupRequestWithPickupItemsResponse
             {

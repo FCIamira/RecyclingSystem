@@ -29,9 +29,4 @@
     <Folder Include="Feature\PickupRequest\Commands\" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Feature\Material\Commands\" />
-    <Folder Include="Feature\Material\Queries\" />
-  </ItemGroup>
-
 </Project>
