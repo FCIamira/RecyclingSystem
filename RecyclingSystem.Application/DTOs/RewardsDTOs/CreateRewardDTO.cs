@@ -1,26 +1,27 @@
-﻿using System;
+﻿using RecyclingSystem.Domain.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using RecyclingSystem.Domain.Common;
-using static System.Net.Mime.MediaTypeNames;
-namespace RecyclingSystem.Domain.Models
+
+namespace RecyclingSystem.Application.DTOs.RewardsDTOs
 {
-    public class Rewards:BaseModel<int>
+    public class CreateRewardDTO
     {
         [Required(ErrorMessage = "Title is required.")]
-        [MaxLength(100, ErrorMessage = "Title must not exceed 100 characters.")]
+        [StringLength(100, ErrorMessage = "Title must not exceed 100 characters.")]
         public string? Title { get; set; }
 
         [Required(ErrorMessage = "Description is required.")]
-        [MaxLength(500, ErrorMessage = "Description must not exceed 500 characters.")]
+        [StringLength(500, ErrorMessage = "Description must not exceed 500 characters.")]
         public string? Description { get; set; }
 
         [Url(ErrorMessage = "Invalid image URL.")]
         public string? ImageUrl { get; set; }
 
+        [Range(1, int.MaxValue, ErrorMessage = "Points required must be at least 1.")]
         public int PointsRequired { get; set; }
 
         [Range(0, int.MaxValue, ErrorMessage = "Stock quantity cannot be negative.")]
@@ -28,6 +29,5 @@ namespace RecyclingSystem.Domain.Models
 
         public bool IsActive { get; set; }
 
-        public virtual ICollection<RewardRedemptions> ?RewardRedemptions { get; set; }
     }
 }

@@ -13,7 +13,9 @@ namespace RecyclingSystem.Application.Mapping
     {
         public RewardsProfile() {
         
-        CreateMap<Rewards,RewardDTO>(); 
+        CreateMap<Reward,RewardDTO>(); 
+
+            CreateMap<Reward,CreateRewardDTO>().ReverseMap();
                 }
     }
 }

@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using RecyclingSystem.Application.Feature.Rewards.Query;
 using Microsoft.EntityFrameworkCore;
 using RecyclingSystem.Application.Feature.Rewards.Command;
+using RecyclingSystem.Application.DTOs.RewardsDTOs;
+using RecyclingSystem.Application.Behaviors;
+using Microsoft.AspNetCore.Http.HttpResults;
 namespace RecyclingSystem.API.Controllers
 {
     [Route("api/[controller]")]
@@ -17,37 +20,78 @@ namespace RecyclingSystem.API.Controllers
             this.mediator = mediator;
         }
 
-
+        #region get all rewards
         [HttpGet]
         public async Task<IActionResult> GetAllRewards()
         {
-            var rewards = await mediator.Send(new GetAllRewardsQuery());
-            return Ok(rewards);
+            var query = new GetAllRewardsQuery { };
+            var result = await mediator.Send(query);
+            if (!result.IsSuccess)
+                return NotFound(result.Message);
+
+            return Ok(result);
         }
 
-
+     
+        #endregion
+        #region search areward by title
         [HttpGet("search")]
         
         public async Task<IActionResult> GetAllRewardsByTitle(string title)
         {
-            var rewards = await mediator.Send(new GetAllRewardsByTitleQuery {Title=title});
-            return Ok(rewards);
-        }
+           
+            var query = new GetAllRewardsByTitleQuery { Title = title };
+            var result = await mediator.Send(query);
 
+            if (!result.IsSuccess)
+                return NotFound(result.Message);
+
+            return Ok(result);
+        }
+        #endregion
+
+        #region filter reward by point
         [HttpGet("filterByPoint")]
 
         public async Task<IActionResult> GetAllRewardsByPoints(int max,int min)
         {
-            var rewards = await mediator.Send(new GetAllRewardsByRangeOfPointsQuery { Max = max,Min=min });
-            return Ok(rewards);
+            var query = new GetAllRewardsByRangeOfPointsQuery { Min = min, Max = max };
+            var result = await mediator.Send(query);
+
+            if (!result.IsSuccess)
+                return NotFound(result.Message);
+
+            return Ok(result);
         }
 
+        #endregion
+
+
+        #region add new reward
+
+        [HttpPost]
+
+        public async Task<IActionResult> AddNewReward(CreateRewardDTO rewardFromRequest)
+        {
+           var result= await mediator.Send(new CreateRewardCommand { CreateRewardDTO=rewardFromRequest});
+            if (!result.IsSuccess)
+                return BadRequest(result);
+
+            return Ok(result);
+        }
+        #endregion
+
+        #region remove reward
         [HttpDelete("{id}")]
 
         public async Task<IActionResult> remove(int id)
         {
-            await mediator.Send(new DeleteRewardCommand { Id=id });
-            return Ok();
+            var result = await mediator.Send(new DeleteRewardCommand { Id=id });
+            if (!result.IsSuccess)
+                return BadRequest(result);
+
+            return Ok(result);
         }
+        #endregion
     }
 }

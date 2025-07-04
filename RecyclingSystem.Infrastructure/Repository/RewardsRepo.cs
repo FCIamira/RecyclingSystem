@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace RecyclingSystem.Infrastructure.Repository
 {
-    internal class RewardsRepo:GenericRepo<Rewards,int>,IRewards
+    internal class RewardsRepo:GenericRepo<Reward,int>,IRewards
     {
         private readonly RecyclingDbContext context;
 
