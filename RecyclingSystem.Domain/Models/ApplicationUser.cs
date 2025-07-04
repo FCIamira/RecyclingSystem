@@ -27,6 +27,7 @@ namespace RecyclingSystem.Domain.Models
         public string? ProfilePictureUrl { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public bool IsDeleted { get; set; } = false;
 
         // Navigation properties
         public virtual ICollection<Notification>? Notifications { get; set; }
