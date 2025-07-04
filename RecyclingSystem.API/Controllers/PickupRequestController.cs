@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using MediatR;
 using RecyclingSystem.API.Validators;
 using Microsoft.AspNetCore.Authorization;
+using RecyclingSystem.Application.Feature.UserInfo.Queries;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RecyclingSystem.Application.Feature.PickupRequest.Queries.GetAllPickupRequests;
@@ -59,7 +60,16 @@ namespace RecyclingSystem.API.Controllers
         //    });
         //}
 
+        #region GetTotalQuantity
+        [Authorize]
+        [HttpGet("TotalQuantitywith-userName")]
 
+        public async Task<IActionResult> GetTotalQuantity()
+        {
+            var result = await _mediator.Send(new GetUserTotalQuantityQuery());
+            return result.ToActionResult();
+        }
+        #endregion
 
         [HttpPost]
         [Authorize(Roles = "Customer, Admin")]

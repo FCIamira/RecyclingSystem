@@ -25,6 +25,7 @@ namespace RecyclingSystem.Application.Mapping
                        {
                            Name = g.Key,
                            Quantity = g.Sum(x => x.Quantity)
+
                        }).ToList()
                    : new List<GetMaterialWithQuantityDto>()));
 
@@ -38,8 +39,8 @@ namespace RecyclingSystem.Application.Mapping
            .GroupBy(p => p.Material.Name)
            .Select(g => new GetMaterialWithQuantityDto
            {
-               Name = g.Key,
-               Quantity = g.Sum(x => x.Quantity)
+              Name = g.Key,
+               Quantity = g.Sum(x => x.Quantity )
            }).ToList()
        : new List<GetMaterialWithQuantityDto>()));
 
