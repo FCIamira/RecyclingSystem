@@ -17,7 +17,7 @@ namespace RecyclingSystem.Domain.Models
         public DateTime DateRedeemed {get;set;}
         public Status RedemptionStatus { get; set;}
 
-        public virtual Rewards? Rewards { get; set;}
+        public virtual Reward? Rewards { get; set;}
         public virtual ApplicationUser? User { get; set; }//not completed
     }
 }

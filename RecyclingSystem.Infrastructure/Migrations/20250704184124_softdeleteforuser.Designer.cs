@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RecyclingSystem.Infrastructure.Context;
 
@@ -11,9 +12,11 @@ using RecyclingSystem.Infrastructure.Context;
 namespace RecyclingSystem.Infrastructure.Migrations
 {
     [DbContext(typeof(RecyclingDbContext))]
-    partial class RecyclingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250704184124_softdeleteforuser")]
+    partial class softdeleteforuser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -611,39 +614,6 @@ namespace RecyclingSystem.Infrastructure.Migrations
                     b.ToTable("Rewards");
                 });
 
-            modelBuilder.Entity("RecyclingSystem.Domain.Models.UserGift", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("GiftCount")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("LastUpdated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("PointsPerGift")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserGifts");
-                });
-
             modelBuilder.Entity("RecyclingSystem.Domain.Models.Warehouse", b =>
                 {
                     b.Property<int>("Id")
@@ -882,17 +852,6 @@ namespace RecyclingSystem.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("RecyclingSystem.Domain.Models.UserGift", b =>
-                {
-                    b.HasOne("RecyclingSystem.Domain.Models.ApplicationUser", "User")
-                        .WithMany("UserGifts")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("RecyclingSystem.Domain.Models.Warehouse", b =>
                 {
                     b.HasOne("RecyclingSystem.Domain.Models.ApplicationUser", "Manager")
@@ -930,8 +889,6 @@ namespace RecyclingSystem.Infrastructure.Migrations
                     b.Navigation("Notifications");
 
                     b.Navigation("PointsHistory");
-
-                    b.Navigation("UserGifts");
                 });
 
             modelBuilder.Entity("RecyclingSystem.Domain.Models.Material", b =>

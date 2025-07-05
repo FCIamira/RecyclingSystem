@@ -16,7 +16,6 @@ namespace RecyclingSystem.Application.Behaviors
         //public static Result<T> Success(T data) => new Result<T>() { IsSuccess = true, Data = data };
         //public static Result<T> Failure(string msg) => new Result<T>() { IsSuccess = false, Error = msg };
         public static Result<T> Success(T data, string message = "")
-
         {
 
             return new Result<T>

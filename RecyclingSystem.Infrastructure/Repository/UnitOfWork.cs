@@ -16,15 +16,15 @@ namespace RecyclingSystem.Infrastructure.Repository
         private IFactoryOrder _factoryOrders;
         private IWarehouse _warehouse;
         private IWarehouseInventory _warehouseInventory;
-        IEmployeeWarehouseHistory _employeeWarehouseHistory;
-        IMaterials _materials;
-        INotification _notification;
-        IPickupItem _pickupItem;
-        IPickupRequest _pickupRequest;
-        IPointsHistory _pointsHistory;
-        IRewardRedemptions _rewardRedemptions;
-        IRewards _rewards;
-        IUserGift _userGift;
+        private IEmployeeWarehouseHistory _employeeWarehouseHistory;
+        private IMaterials _materials;
+        private INotification _notification;
+        private IPickupItem _pickupItem;
+        private IPickupRequest _pickupRequest;
+        private IPointsHistory _pointsHistory;
+        private IRewardRedemptions _rewardRedemptions;
+        private IRewards _rewards;
+        private IApplicationUser _user;
 
         public UnitOfWork(RecyclingDbContext applicationDBContext)
         {
@@ -201,22 +201,22 @@ namespace RecyclingSystem.Infrastructure.Repository
                 return _rewards;
             }
         }
-
         #endregion
 
-        public IUserGift userGift
+        #region applicationUser
+        public IApplicationUser applicationUser
         {
             get
             {
-                if (_userGift is null)
+                if (_user is null)
                 {
-                    _userGift = new UserGiftRepo(_context);
+                    _user = new ApplicationUserRepo(_context);
 
                 }
-                return _userGift;
+                return _user;
             }
         }
-
+        #endregion
         public async Task BeginTransactionAsync()
         {
             await _context.Database.BeginTransactionAsync();
@@ -226,7 +226,7 @@ namespace RecyclingSystem.Infrastructure.Repository
         {
             await _context.Database.CommitTransactionAsync();
         }
-
+        
         public void Dispose()
         {
             _context.Dispose();

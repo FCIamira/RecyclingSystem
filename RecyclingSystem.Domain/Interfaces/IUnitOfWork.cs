@@ -20,6 +20,7 @@ namespace RecyclingSystem.Domain.Interfaces
         IRewardRedemptions rewardRedemptions { get; }
         IRewards rewards { get; }
         IUserGift userGift { get; }
+        IApplicationUser applicationUser { get; }
         Task SaveChangesAsync();
         Task BeginTransactionAsync();
         Task CommitAsync();

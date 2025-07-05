@@ -16,6 +16,7 @@ namespace RecyclingSystem.Domain.Models
 
         public DateTime? ScheduledDate { get; set; }
 
+        public string Address { get; set; } = string.Empty;
         public string LocationLat { get; set; }
         public string LocationLng { get; set; }
 
