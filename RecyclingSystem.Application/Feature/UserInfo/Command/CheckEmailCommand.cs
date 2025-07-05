@@ -14,12 +14,12 @@ using System.Threading.Tasks;
 namespace RecyclingSystem.Application.Feature.UserInfo.Command
 {
 
-    public class CheckEmailCommand : IRequest<Result<ApplicationUser>>
+    public class CheckEmailCommand : IRequest<bool>
     {
         public string Email { get; set; }
     }
 
-    public class CheckEmailCommandHandler : IRequestHandler<CheckEmailCommand, Result<ApplicationUser>>
+    public class CheckEmailCommandHandler : IRequestHandler<CheckEmailCommand, bool>
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<CheckEmailCommandHandler> _logger;
@@ -29,7 +29,7 @@ namespace RecyclingSystem.Application.Feature.UserInfo.Command
             _logger = logger;
         }
 
-        public async Task<Result<ApplicationUser>> Handle(CheckEmailCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(CheckEmailCommand request, CancellationToken cancellationToken)
         {
             _logger.LogInformation("Checking if email exists.");
             try
@@ -38,14 +38,14 @@ namespace RecyclingSystem.Application.Feature.UserInfo.Command
                 if (user == null)
                 {
                     _logger.LogWarning("Email not found.");
-                    return Result<ApplicationUser>.Failure(ErrorCode.NotFound, "Email not found.");
+                    return false;
                 }
-                return Result<ApplicationUser>.Success(user);
+                return true;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An error occurred while checking the email.");
-                return Result<ApplicationUser>.Failure(ErrorCode.ServerError, "An unexpected error occurred while processing your request.");
+                return false;
             }
         }
     }

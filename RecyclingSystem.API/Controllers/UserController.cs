@@ -20,10 +20,10 @@ namespace RecyclingSystem.API.Controllers
 
 
         [HttpPost("CheckEmail")]
-        public async Task<IActionResult> checkEmail([FromForm] CheckEmailCommand command)
+        public async Task<IActionResult> CheckEmail([FromForm] CheckEmailCommand command)
         {
-            var exist = await _mediator.Send(command);
-            return Ok(exist);
+            var isExist = await _mediator.Send(command);
+            return Ok(new { isExist });
         }
 
         [HttpPost("ChangePassword")]
@@ -35,11 +35,19 @@ namespace RecyclingSystem.API.Controllers
         }
 
         [HttpGet("{id:int}")]
-       
+        [Authorize]
         public async Task<IActionResult> GetUserInfo(int id)
         {
             var user = await _mediator.Send(new GetUserQuery { UserId = id });
             return Ok(user);
+        }
+
+        [HttpPut]
+        [Authorize]
+        public async Task<IActionResult> UpdateUser([FromForm] UpdateUserCommand command)
+        {
+            var message = await _mediator.Send(command);
+            return Ok(new { message }); 
         }
     }
 }

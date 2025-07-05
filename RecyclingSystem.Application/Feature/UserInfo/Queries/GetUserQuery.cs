@@ -34,7 +34,7 @@ namespace RecyclingSystem.Application.Feature.UserInfo.Queries
 
         public async Task<Result<UserInfoDto>> Handle(GetUserQuery request, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("");
+            _logger.LogInformation("Get user information");
             try
             {
                 var user = await _unitOfWork.applicationUser.GetById(request.UserId);

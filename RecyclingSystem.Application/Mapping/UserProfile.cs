@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using RecyclingSystem.Application.DTOs.UserInfDTOs;
+using RecyclingSystem.Application.Feature.UserInfo.Command;
 using RecyclingSystem.Domain.Models;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,8 @@ namespace RecyclingSystem.Application.Mapping
         public UserProfile()
         {
             CreateMap<ApplicationUser, UserInfoDto>();
+            CreateMap<UpdateUserCommand, ApplicationUser>()
+                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
         }
     }
 }

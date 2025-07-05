@@ -58,12 +58,12 @@ namespace RecyclingSystem.Application.Feature.UserInfo.Command
                     return "Password change failed.";
                 }
 
-                return "Password change successfull";
+                return "Change password success";
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An error occurred while change password.");
-                return "An error occurred while change password.";
+                return $"Error: {ex.Message}";
             }
         }
     }
