@@ -24,6 +24,7 @@ namespace RecyclingSystem.Infrastructure.Repository
         IPointsHistory _pointsHistory;
         IRewardRedemptions _rewardRedemptions;
         IRewards _rewards;
+        IUserGift _userGift;
 
         public UnitOfWork(RecyclingDbContext applicationDBContext)
         {
@@ -202,6 +203,20 @@ namespace RecyclingSystem.Infrastructure.Repository
         }
 
         #endregion
+
+        public IUserGift userGift
+        {
+            get
+            {
+                if (_userGift is null)
+                {
+                    _userGift = new UserGiftRepo(_context);
+
+                }
+                return _userGift;
+            }
+        }
+
         public async Task BeginTransactionAsync()
         {
             await _context.Database.BeginTransactionAsync();

@@ -22,10 +22,7 @@ namespace RecyclingSystem.Infrastructure.Repository
 
         public async Task<List<PickupRequest>> GetAllDetails()
         {
-            //var pickupRequests = await context.PickupRequests
-            //    .Include(p => p.PickupItems.Where(pi => pi.MaterialId != null))
-            //        .ThenInclude(pi => pi.Material)
-            //    .ToListAsync();
+               
 
             var pickupRequests = await context.PickupRequests
                 .Include(p => p.Customer)
@@ -33,21 +30,7 @@ namespace RecyclingSystem.Infrastructure.Repository
                     .ThenInclude(pi => pi.Material)
                 .ToListAsync();
 
-            foreach (var request in pickupRequests)
-            {
-                foreach (var item in request.PickupItems)
-                {
-                    if (item.Material == null)
-                        Console.WriteLine($"PickupItem {item.Id} has NULL Material");
-
-                    if (item.Quantity == 0)
-                        Console.WriteLine($"PickupItem {item.Id} has Quantity 0");
-                }
-            }
-
             return pickupRequests;
-
-
         }
 
     }

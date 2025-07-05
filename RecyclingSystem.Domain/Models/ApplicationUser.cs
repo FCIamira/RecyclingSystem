@@ -32,5 +32,7 @@ namespace RecyclingSystem.Domain.Models
         public virtual ICollection<Notification>? Notifications { get; set; }
         public virtual ICollection<PointsHistory>? PointsHistory { get; set; }
         public virtual ICollection<EmployeeWarehouseHistory>? Employees { get; set; }
+        public virtual ICollection<UserGift>? UserGifts { get; set; }
+
     }
 }

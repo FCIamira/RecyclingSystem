@@ -14,6 +14,7 @@ using System.Text;
 using AutoMapper;
 using System.Security.Claims;
 using Microsoft.Extensions.DependencyInjection;
+using Hangfire;
 
 namespace RecyclingSystem.API
 {
@@ -152,25 +153,7 @@ namespace RecyclingSystem.API
                     In = ParameterLocation.Header,
                     Description = "Enter 'Bearer' [space] and then your valid token in the text input below.\r\n\r\nExample: \"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\""
                 });
-              //  swagger.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
-//                {
-//                    Name = "Authorization",
-//                    Type = SecuritySchemeType.ApiKey,
-//                    Scheme = "Bearer",
-//                    BearerFormat = "JWT",
-//                    In = ParameterLocation.Header,
-//                    Description = "Enter 'Bearer' [space] and then your valid token in the text input below.\r\n\r\nExample: \"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\"",
-//                });
-//                swagger.AddSecurityRequirement(new OpenApiSecurityRequirement
-//                {
-//                    {
-//                    new OpenApiSecurityScheme
-//                    {
-//                    Reference = new OpenApiReference
-//                    {
-//                    Type = ReferenceType.SecurityScheme,
-//                    Id = "Bearer"
-//                    }
+
               swagger.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
                     {
@@ -187,6 +170,13 @@ namespace RecyclingSystem.API
                 });
             });
 
+            builder.Services.AddHangfire(config =>
+            {
+                config.UseSqlServerStorage(builder.Configuration.GetConnectionString("DefaultConnection"));
+            });
+
+            builder.Services.AddHangfireServer();
+
             var app = builder.Build();
 
             app.UseSwagger();
@@ -195,7 +185,7 @@ namespace RecyclingSystem.API
             app.UseAuthentication();
             app.UseAuthorization();
             app.MapControllers();
-
+            app.UseHangfireDashboard(); // هيفتح Dashboard على /hangfire
             app.Run();
         }
     }

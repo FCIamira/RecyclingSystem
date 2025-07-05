@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using RecyclingSystem.Application.DTOs.PickupRequestDTOs;
 using RecyclingSystem.Domain.Models;
 using RecyclingSystem.Application.DTOs.MaterialDTOs;
+using RecyclingSystem.Application.DTOs.UserInfDTOs;
 namespace RecyclingSystem.Application.Mapping
 {
     public class PickupRequestProfile:Profile
@@ -44,6 +45,13 @@ namespace RecyclingSystem.Application.Mapping
            }).ToList()
        : new List<GetMaterialWithQuantityDto>()));
 
+
+
+            CreateMap<UserGift, GetAllGiftDto>().ReverseMap();
+            CreateMap<AddUserGiftDto, UserGift>().ReverseMap();
         }
-    }
+
+
+  
+  }
 }

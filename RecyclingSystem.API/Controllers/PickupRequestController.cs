@@ -42,19 +42,6 @@ namespace RecyclingSystem.API.Controllers
         }
         #endregion
 
-        //[HttpGet("claims-debug")]
-        //[Authorize]
-        //public IActionResult ClaimsDebug()
-        //{
-        //    var claims = User.Claims.Select(c => new { c.Type, c.Value }).ToList();
-        //    return Ok(new
-        //    {
-        //        IsAuthenticated = User.Identity?.IsAuthenticated,
-        //        Name = User.Identity?.Name,
-        //        Claims = claims
-        //    });
-        //}
-
         #region GetTotalQuantity
         [Authorize]
         [HttpGet("TotalQuantitywith-userName")]
@@ -66,7 +53,16 @@ namespace RecyclingSystem.API.Controllers
         }
         #endregion
 
+        #region GetAllGift
 
+        [Authorize]
+        [HttpGet("Get All Gift")]
+        public async Task<IActionResult> GetAllGift()
+        {
+            var result =await _mediator.Send(new GetAllGiftForUserQueries());
+            return result.ToActionResult();
+        }
+        #endregion
 
 
     }

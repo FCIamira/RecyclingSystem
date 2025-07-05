@@ -25,7 +25,7 @@ namespace RecyclingSystem.Infrastructure.Context
         public DbSet<Rewards> Rewards { get; set; }
         public DbSet<Warehouse> Warehouses { get; set; }
         public DbSet<WarehouseInventory> WarehouseInventories { get; set; }
-
+        public DbSet<UserGift> UserGifts { get; set; }
         public RecyclingDbContext() { }
         public RecyclingDbContext(DbContextOptions<RecyclingDbContext> options) : base(options)
         {
