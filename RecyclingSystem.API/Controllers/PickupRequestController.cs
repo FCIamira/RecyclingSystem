@@ -68,6 +68,8 @@ namespace RecyclingSystem.API.Controllers
             return result.ToActionResult();
         }
         #endregion
+
+        #region CreatePickupRequest
         [HttpPost]
         [Authorize(Roles = "Customer, Admin")]
         public async Task<IActionResult> CreatePickupRequest([FromBody] CreatePickupRequestDto request)
@@ -77,9 +79,10 @@ namespace RecyclingSystem.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            var result = await _mediator.Send(new CreatePickupRequestWithPickupItemsOrchestrator { CreatePickupRequestDto = request});
+            var result = await _mediator.Send(new CreatePickupRequestWithPickupItemsOrchestrator { CreatePickupRequestDto = request });
 
             return Ok(result);
-        }
+        } 
+        #endregion
     }
 }
