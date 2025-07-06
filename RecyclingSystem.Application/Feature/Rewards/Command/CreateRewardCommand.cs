@@ -35,7 +35,7 @@ namespace RecyclingSystem.Application.Feature.Rewards.Command
                 return Result<string>.Failure(ErrorCode.ValidationError, "Reward data is invalid.");
             }
 
-            unitOfWork.rewards.Add(reward);
+          await  unitOfWork.rewards.Add(reward);
             await unitOfWork.SaveChangesAsync();
 
             return Result<string>.Success("Reward created successfully.");
