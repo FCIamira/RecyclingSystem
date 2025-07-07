@@ -24,7 +24,7 @@ namespace RecyclingSystem.API.Controllers
         }
 
         [HttpGet("TotalPoints")]
-        [Authorize(Roles = "Customer,Admin")]
+        [Authorize(Roles = "Customer")]
         public async Task<IActionResult> GetAllPointsTypes()
         {
             var points = await _mediator.Send(new GetTotalPointsQuery());
