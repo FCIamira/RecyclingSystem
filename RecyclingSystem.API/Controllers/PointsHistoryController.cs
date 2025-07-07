@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RecyclingSystem.Application.Feature.PointsHistories.Query;
@@ -20,6 +21,14 @@ namespace RecyclingSystem.API.Controllers
         {
             var history = await _mediator.Send(new GetAllPointsHistoryQuery());
             return Ok(history);
+        }
+
+        [HttpGet("TotalPoints")]
+        [Authorize(Roles = "Customer,Admin")]
+        public async Task<IActionResult> GetAllPointsTypes()
+        {
+            var points = await _mediator.Send(new GetTotalPointsQuery());
+            return Ok(points);
         }
     }
 }
