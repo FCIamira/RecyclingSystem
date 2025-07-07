@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RecyclingSystem.Infrastructure.Context;
 
@@ -11,9 +12,11 @@ using RecyclingSystem.Infrastructure.Context;
 namespace RecyclingSystem.Infrastructure.Migrations
 {
     [DbContext(typeof(RecyclingDbContext))]
-    partial class RecyclingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250706153656_init3")]
+    partial class init3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -557,7 +560,7 @@ namespace RecyclingSystem.Infrastructure.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<int>("PickupRequestId")
+                    b.Property<int?>("PickupRequestId")
                         .HasColumnType("int");
 
                     b.Property<string>("Response")
@@ -565,9 +568,7 @@ namespace RecyclingSystem.Infrastructure.Migrations
                         .HasColumnType("nvarchar(1000)");
 
                     b.Property<int>("Status")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0);
+                        .HasColumnType("int");
 
                     b.Property<int>("Type")
                         .HasColumnType("int");
@@ -920,9 +921,7 @@ namespace RecyclingSystem.Infrastructure.Migrations
 
                     b.HasOne("RecyclingSystem.Domain.Models.PickupRequest", "PickupRequest")
                         .WithMany("Reports")
-                        .HasForeignKey("PickupRequestId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PickupRequestId");
 
                     b.HasOne("RecyclingSystem.Domain.Models.Warehouse", "Warehouse")
                         .WithMany("Reports")

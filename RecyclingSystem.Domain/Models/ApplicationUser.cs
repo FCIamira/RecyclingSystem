@@ -34,6 +34,6 @@ namespace RecyclingSystem.Domain.Models
         public virtual ICollection<PointsHistory>? PointsHistory { get; set; }
         public virtual ICollection<EmployeeWarehouseHistory>? Employees { get; set; }
         public virtual ICollection<UserGift>? UserGifts { get; set; }
-
+        public virtual ICollection<Report> Reports { get; set; }
     }
 }

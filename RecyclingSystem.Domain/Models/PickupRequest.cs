@@ -35,6 +35,7 @@ namespace RecyclingSystem.Domain.Models
         public virtual ApplicationUser? Employee { get; set; }
 
         public ICollection<PickupItem>? PickupItems { get; set; }
+        public virtual ICollection<Report> Reports { get; set; }
     }
 
 }

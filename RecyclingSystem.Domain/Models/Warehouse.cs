@@ -32,5 +32,7 @@ namespace RecyclingSystem.Domain.Models
         public virtual ICollection<WarehouseInventory>? Inventory { get; set; }
         public virtual ICollection<FactoryOrders>? FactoryOrders { get; set; }
         public virtual ICollection<EmployeeWarehouseHistory>? Employees { get; set; }
+
+        public virtual ICollection<Report> Reports { get; set; }
     }
 }
