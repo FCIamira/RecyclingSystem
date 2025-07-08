@@ -26,6 +26,7 @@ namespace RecyclingSystem.Domain.Models
         [ForeignKey("EmployeeId")]
         public virtual ApplicationUser? Employee { get; set; }
         public ICollection<PickupItem>? PickupItems { get; set; }
+        public virtual ICollection<Report> Reports { get; set; }
     }
 
 }

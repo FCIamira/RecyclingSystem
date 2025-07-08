@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RecyclingSystem.Infrastructure.Context;
 
@@ -11,9 +12,11 @@ using RecyclingSystem.Infrastructure.Context;
 namespace RecyclingSystem.Infrastructure.Migrations
 {
     [DbContext(typeof(RecyclingDbContext))]
-    partial class RecyclingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250706220858_init2")]
+    partial class init2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -395,8 +398,7 @@ namespace RecyclingSystem.Infrastructure.Migrations
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
-                    b.Property<int?>("UserId")
-                        .IsRequired()
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -414,9 +416,6 @@ namespace RecyclingSystem.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ActualQuantity")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
@@ -429,7 +428,7 @@ namespace RecyclingSystem.Infrastructure.Migrations
                     b.Property<int>("PickupRequestId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PlannedQuantity")
+                    b.Property<int>("Quantity")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -613,10 +612,10 @@ namespace RecyclingSystem.Infrastructure.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<int>("RedemptionStatus")
+                    b.Property<int>("PointsRequired")
                         .HasColumnType("int");
 
-                    b.Property<int>("RewardId")
+                    b.Property<int>("StockQuantity")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
@@ -624,11 +623,7 @@ namespace RecyclingSystem.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RewardId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("RewardRedemptions");
+                    b.ToTable("Rewards");
                 });
 
             modelBuilder.Entity("RecyclingSystem.Domain.Models.RewardRedemptions", b =>

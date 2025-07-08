@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RecyclingSystem.Application.Feature.UserInfo.Commands
+namespace RecyclingSystem.Application.Feature.PointsHistories.Commands
 {
     public class LogPointsHistoryCommand : IRequest<Result<bool>>
     {

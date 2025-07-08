@@ -21,6 +21,7 @@ namespace RecyclingSystem.Domain.Interfaces
         IRewards rewards { get; }
         IUserGift userGift { get; }
         IApplicationUser applicationUser { get; }
+        IReport report { get; }
         Task SaveChangesAsync();
         Task BeginTransactionAsync();
         Task CommitAsync();

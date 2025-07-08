@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using RecyclingSystem.Domain.Common;
+using RecyclingSystem.Domain.Enums;
 using RecyclingSystem.Domain.Models;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,7 @@ namespace RecyclingSystem.Infrastructure.Context
         public DbSet<Warehouse> Warehouses { get; set; }
         public DbSet<WarehouseInventory> WarehouseInventories { get; set; }
         public DbSet<UserGift> UserGifts { get; set; }
+        public DbSet<Report> Reports { get; set; }
         public RecyclingDbContext() { }
         public RecyclingDbContext(DbContextOptions<RecyclingDbContext> options) : base(options)
         {
@@ -37,6 +39,9 @@ namespace RecyclingSystem.Infrastructure.Context
 
             modelBuilder.Entity<IdentityUserLogin<int>>()
                 .HasKey(l => new { l.LoginProvider, l.ProviderKey });
+            modelBuilder.Entity<Report>()
+    .Property(r => r.Status)
+    .HasDefaultValue(ReportStatus.Pending);
 
 
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())

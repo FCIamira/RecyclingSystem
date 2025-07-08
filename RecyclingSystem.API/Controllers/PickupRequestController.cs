@@ -14,6 +14,9 @@ using RecyclingSystem.Application.Feature.PickupRequest.Queries.GetAllPickupRequ
 using RecyclingSystem.Application.Feature.PickupRequest.Queries.GetAllPickupRequestsForEmployee;
 using RecyclingSystem.Application.Feature.PickupRequest.Queries.GetPickupRequestById;
 using RecyclingSystem.Application.Feature.UserInfo.Queries;
+using RecyclingSystem.Application.Feature.PickupRequest.Commands;
+using RecyclingSystem.Application.Feature.PickupRequest.Queries;
+using RecyclingSystem.Domain.Enums;
 
 
 namespace RecyclingSystem.API.Controllers
@@ -89,6 +92,39 @@ namespace RecyclingSystem.API.Controllers
             return Ok(result);
         }
         #endregion
+
+
+        #region assign-employee
+        [Authorize(Roles = "Admin")]
+        [HttpPost("assign-employee/{id:int}")]
+        public async Task<IActionResult> AssignEmployeeToRequest(int id, [FromForm] AssignEmployeeToRequestDto requestDto)
+        {
+            //if (!Enum.TryParse<PickupStatus>(requestDto.Status, ignoreCase: true, out var parsedStatus))
+            //{
+            //    return BadRequest("Invalid status value.");
+            //}
+            var command = new AssignEmployeeToRequestCommand
+            {
+                RequestId = id,
+                Email = requestDto.Email,
+               // Status = parsedStatus,
+            };
+
+            var result = await _mediator.Send(command);
+            return result.ToActionResult();
+        }
+
+
+        #endregion
+        #region GetAllStatus
+        [HttpGet("GetAllStatus")]
+        public async Task<IActionResult> GetAllStatus()
+        {
+            var result = await _mediator.Send(new GetAllPickupStatusesQuery());
+            return result.ToActionResult();
+        } 
+        #endregion
+
 
         [Authorize]
         [HttpGet("{id:int}")]

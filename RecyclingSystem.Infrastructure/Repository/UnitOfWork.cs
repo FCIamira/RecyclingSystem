@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using RecyclingSystem.Domain.Interfaces;
-
+using RecyclingSystem.Domain.Models;
 using RecyclingSystem.Infrastructure.Context;
 
 namespace RecyclingSystem.Infrastructure.Repository
@@ -25,6 +25,7 @@ namespace RecyclingSystem.Infrastructure.Repository
         private IRewardRedemptions _rewardRedemptions;
         private IRewards _rewards;
         private IApplicationUser _user;
+        private IReport _report;
         IUserGift _userGift;
         public UnitOfWork(RecyclingDbContext applicationDBContext)
         {
@@ -216,6 +217,24 @@ namespace RecyclingSystem.Infrastructure.Repository
                 return _user;
             }
         }
+        #endregion
+
+
+
+        #region Report
+        public IReport report
+        {
+            get
+            {
+                if (_report is null)
+                {
+                    _report = new ReportRepo(_context);
+
+                }
+                return _report;
+            }
+        }
+
         #endregion
         public IUserGift userGift
         {

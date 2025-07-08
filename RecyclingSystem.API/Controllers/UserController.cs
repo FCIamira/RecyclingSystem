@@ -26,6 +26,7 @@ namespace RecyclingSystem.API.Controllers
             return Ok(new { isExist });
         }
 
+
         [HttpPost("ChangePassword")]
         [Authorize]
         public async Task<IActionResult> ChangePassword([FromForm] ChangePasswordCommand command)
@@ -33,6 +34,7 @@ namespace RecyclingSystem.API.Controllers
             var message = await _mediator.Send(command);
             return Ok(new { message });
         }
+
 
         [HttpGet("{id:int}")]
         [Authorize]
@@ -42,10 +44,16 @@ namespace RecyclingSystem.API.Controllers
             return Ok(user);
         }
 
+
         [HttpPut]
         [Authorize]
         public async Task<IActionResult> UpdateUser([FromForm] UpdateUserCommand command)
         {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
             var message = await _mediator.Send(command);
             return Ok(new { message }); 
         }

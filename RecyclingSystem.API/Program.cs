@@ -1,6 +1,10 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using AutoMapper;
+using Hangfire;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using RecyclingSystem.Application.Feature.Account.Commands;
@@ -10,11 +14,8 @@ using RecyclingSystem.Domain.Interfaces;
 using RecyclingSystem.Domain.Models;
 using RecyclingSystem.Infrastructure.Context;
 using RecyclingSystem.Infrastructure.Repository;
-using System.Text;
-using AutoMapper;
 using System.Security.Claims;
-using Microsoft.Extensions.DependencyInjection;
-using Hangfire;
+using System.Text;
 
 namespace RecyclingSystem.API
 {
@@ -104,8 +105,8 @@ namespace RecyclingSystem.API
                     OnAuthenticationFailed = context =>
                     {
                         var logger = context.HttpContext.RequestServices.GetRequiredService<ILogger<Program>>();
-                        logger.LogError("❌ Authentication Failed: {Message}", context.Exception.Message);
-                        logger.LogInformation("Authorization Header: {Header}", context.HttpContext.Request.Headers["Authorization"]);
+                        logger.LogError(" Authentication Failed", context.Exception.Message);
+                        logger.LogInformation("Authorization Header", context.HttpContext.Request.Headers["Authorization"]);
                         return Task.CompletedTask;
                     },
                     OnChallenge = context =>
@@ -173,6 +174,7 @@ namespace RecyclingSystem.API
             builder.Services.AddHangfire(config =>
             {
                 config.UseSqlServerStorage(builder.Configuration.GetConnectionString("DefaultConnection"));
+                //config.UseSqlServerStorage(builder.Configuration.GetConnectionString("MarlyCS"));
             });
 
             builder.Services.AddHangfireServer();

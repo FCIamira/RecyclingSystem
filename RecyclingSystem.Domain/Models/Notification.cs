@@ -25,7 +25,7 @@ namespace RecyclingSystem.Domain.Models
 
         [Required]
         [ForeignKey("User")]
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
 
         public ApplicationUser? User { get; set; }
     }
