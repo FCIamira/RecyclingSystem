@@ -58,7 +58,7 @@ namespace RecyclingSystem.Application.Feature.PickupRequest.Orchestrator
                 PickupItems = request.CreatePickupRequestDto.PickupItems.Select(item => new CreatePickupItemDto
                 {
                     ItemId = item.ItemId,
-                    Quantity = item.Quantity
+                    PlannedQuantity = item.PlannedQuantity
                 }).ToList()
             }, cancellationToken);
 

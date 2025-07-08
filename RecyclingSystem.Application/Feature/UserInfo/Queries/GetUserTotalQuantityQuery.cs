@@ -64,7 +64,7 @@ namespace RecyclingSystem.Application.Feature.UserInfo.Queries
 
             int totalQuantity = successfulRequests
                 .SelectMany(r => r.PickupItems)
-                .Sum(item => item.Quantity);
+                .Sum(item => item.ActualQuantity);
             //int giftsEarned = totalQuantity / 100;
             
             if (totalQuantity >= 100 && totalQuantity % 100 == 0)

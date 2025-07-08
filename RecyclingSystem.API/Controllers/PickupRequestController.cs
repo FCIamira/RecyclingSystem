@@ -1,14 +1,19 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using MediatR;
-using RecyclingSystem.API.Validators;
+﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using RecyclingSystem.Application.Feature.UserInfo.Queries;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using RecyclingSystem.Application.Feature.PickupRequest.Queries.GetAllPickupRequests;
+using Microsoft.AspNetCore.Mvc;
+using RecyclingSystem.API.Validators;
+using RecyclingSystem.Application.DTOs.PickupItemDTOs;
 using RecyclingSystem.Application.DTOs.PickupRequestDTOs;
+using RecyclingSystem.Application.Feature.PickupRequest.Commands;
 using RecyclingSystem.Application.Feature.PickupRequest.Orchestrator;
+using RecyclingSystem.Application.Feature.PickupRequest.Queries.GetAllPickupRequests;
+using RecyclingSystem.Application.Feature.PickupRequest.Queries.GetAllPickupRequestsForEmployee;
+using RecyclingSystem.Application.Feature.PickupRequest.Queries.GetPickupRequestById;
+using RecyclingSystem.Application.Feature.UserInfo.Queries;
 using RecyclingSystem.Application.Feature.PickupRequest.Commands;
 using RecyclingSystem.Application.Feature.PickupRequest.Queries;
 using RecyclingSystem.Domain.Enums;
@@ -120,5 +125,31 @@ namespace RecyclingSystem.API.Controllers
         } 
         #endregion
 
+
+        [Authorize]
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> GetPickupRequestById(int id)
+        {
+            var result = await _mediator.Send(new GetPickupRequestByIdQuery { Id = id });
+            return Ok(result);
+        }
+
+
+
+        [Authorize(Roles = "Employee")]
+        [HttpGet("employee")]
+        public async Task<IActionResult> GetAllPickupRequestsForEmployee()
+        {
+            var result = await _mediator.Send(new GetAllPickupRequestsForEmployeeQuery());
+            return Ok(result);
+        }
+
+        [Authorize(Roles = "Employee")]
+        [HttpPut("employee-collect/{id:int}")]
+        public async Task<IActionResult> CollectPickupRequest(int id, [FromBody] List<UpdatePickupItemsActualQuantity> actualQuantities)
+        {
+            var result = await _mediator.Send(new EmployeeCollectPickupRequestOrchestrator { PickupRequestId = id, updatePickupItemsActualQuantities = actualQuantities });
+            return Ok(result);
+        }
     }
 }
