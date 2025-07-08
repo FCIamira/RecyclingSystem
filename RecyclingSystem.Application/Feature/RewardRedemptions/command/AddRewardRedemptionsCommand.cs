@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using RecyclingSystem.Application.Behaviors;
 using RecyclingSystem.Application.DTOs.RewardRedemptionsDTOs;
+using RecyclingSystem.Application.Feature.Notifications.Commands;
 using RecyclingSystem.Domain.Enums;
 using RecyclingSystem.Domain.Interfaces;
 using RecyclingSystem.Domain.Models;
@@ -20,10 +21,12 @@ namespace RecyclingSystem.Application.Feature.RewardRedemptions.command
     public class AddRewardRedemptionsCommandHandler : IRequestHandler<AddRewardRedemptionsCommand, Result<string>>
     {
         private readonly IUnitOfWork unitOfWork;
+        private readonly IMediator mediator;
 
-        public AddRewardRedemptionsCommandHandler(IUnitOfWork unitOfWork)
+        public AddRewardRedemptionsCommandHandler(IUnitOfWork unitOfWork, IMediator mediator)
         {
             this.unitOfWork = unitOfWork;
+            this.mediator = mediator;
         }
 
         public async Task<Result<string>> Handle(AddRewardRedemptionsCommand request, CancellationToken cancellationToken)
@@ -60,12 +63,28 @@ namespace RecyclingSystem.Application.Feature.RewardRedemptions.command
 
             reward.StockQuantity -= request.redemptionsDTO.Quantity;
             user.TotalPoints -= totalPointsToReplaced;
+            var pointsHistory = new PointsHistory
+            {
+                UserId = user.Id,
+                Type = PointsHistoryTypes.Redeemed, 
+                PointsChanged = -totalPointsToReplaced,
+                Reason = $"Redeemed reward '{reward.Title}'",
+                Datetime = DateTime.UtcNow
+            }; 
 
             await unitOfWork.rewards.Update(reward.Id,reward);
             await unitOfWork.applicationUser.Update(user.Id, user);
-
+            await unitOfWork.pointsHistory.Add(pointsHistory);
             await unitOfWork.rewardRedemptions.Add(redemption);
             await unitOfWork.SaveChangesAsync();
+
+            await mediator.Send(new SendNotificationCommand
+            {
+                UserId = user.Id,
+                Title = "Reward Redeemed Successfully",
+                Message = $"You have successfully redeemed '{reward.Title}' using {totalPointsToReplaced} points."
+            });
+
 
             return Result<string>.Success("Redemption added successfully.");
         }
