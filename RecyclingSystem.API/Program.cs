@@ -105,8 +105,8 @@ namespace RecyclingSystem.API
                     OnAuthenticationFailed = context =>
                     {
                         var logger = context.HttpContext.RequestServices.GetRequiredService<ILogger<Program>>();
-                        logger.LogError("❌ Authentication Failed: {Message}", context.Exception.Message);
-                        logger.LogInformation("Authorization Header: {Header}", context.HttpContext.Request.Headers["Authorization"]);
+                        logger.LogError(" Authentication Failed", context.Exception.Message);
+                        logger.LogInformation("Authorization Header", context.HttpContext.Request.Headers["Authorization"]);
                         return Task.CompletedTask;
                     },
                     OnChallenge = context =>
