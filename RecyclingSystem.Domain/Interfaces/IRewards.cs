@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using RecyclingSystem.Domain.Models;
 namespace RecyclingSystem.Domain.Interfaces
 {
-    public interface IRewards:IGenericRepo<Reward,int>
+    public interface IRewards:IGenericRepo<Rewards,int>
     {
 
     }
