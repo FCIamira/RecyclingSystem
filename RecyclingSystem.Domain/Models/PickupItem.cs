@@ -11,8 +11,8 @@ namespace RecyclingSystem.Domain.Models
         [ForeignKey("Material")]
         public int MaterialId { get; set; }
 
-        public int Quantity { get; set; }
-
+        public int PlannedQuantity { get; set; }
+        public int ActualQuantity { get; set; } = 0;
         public virtual PickupRequest? PickupRequest { get; set; }
 
         public virtual Material? Material { get; set; }

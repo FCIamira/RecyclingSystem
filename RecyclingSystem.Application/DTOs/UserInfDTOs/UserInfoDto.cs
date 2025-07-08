@@ -9,6 +9,8 @@ namespace RecyclingSystem.Application.DTOs.UserInfDTOs
 {
     public class UserInfoDto
     {
+        public int Id { get; set; }
+
         [MinLength(3, ErrorMessage = "Name must be at least 3 characters.")]
         [MaxLength(20, ErrorMessage = "Name cannot exceed 20 characters.")]
         public string? FullName { get; set; }

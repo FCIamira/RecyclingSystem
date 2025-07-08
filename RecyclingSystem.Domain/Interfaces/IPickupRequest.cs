@@ -10,5 +10,8 @@ namespace RecyclingSystem.Domain.Interfaces
     public interface IPickupRequest:IGenericRepo<PickupRequest,int>
     {
         Task<List<PickupRequest>> GetAllDetails();
+
+        // get a pickup request by id with all details
+        Task<PickupRequest> GetByIdWithDetails(int id);
     }
 }

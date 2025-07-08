@@ -22,7 +22,7 @@ namespace RecyclingSystem.Infrastructure.Repository
 
         public async Task<List<PickupRequest>> GetAllDetails()
         {
-               
+
 
             var pickupRequests = await context.PickupRequests
                 .Include(p => p.Customer)
@@ -33,5 +33,18 @@ namespace RecyclingSystem.Infrastructure.Repository
             return pickupRequests;
         }
 
+
+        public async Task<PickupRequest?> GetByIdWithDetails(int id)
+        {
+            var pickupRequest = await context.PickupRequests
+                .Include(p => p.Customer)
+                .Include(p => p.Employee)
+                .Include(p => p.PickupItems)
+                    .ThenInclude(pi => pi.Material)
+                .FirstOrDefaultAsync(p => p.Id == id);
+            return pickupRequest;
+        }
+
     }
+        
 }
