@@ -25,7 +25,6 @@
   <ItemGroup>
     <Folder Include="DTOs\PickupItemDTOs\" />
     <Folder Include="Feature\PickupItems\Queries\" />
-    <Folder Include="Feature\PickupRequest\Commands\" />
   </ItemGroup>
 
 </Project>

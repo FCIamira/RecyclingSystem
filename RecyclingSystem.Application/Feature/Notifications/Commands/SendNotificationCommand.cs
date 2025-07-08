@@ -8,11 +8,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RecyclingSystem.Application.Feature.UserInfo.Commands
+namespace RecyclingSystem.Application.Feature.Notifications.Commands
 {
     public class SendNotificationCommand : IRequest<Result<bool>>
     {
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
         public string Title { get; set; }
         public string Message { get; set; }
     }
