@@ -20,6 +20,7 @@ namespace RecyclingSystem.Application.Feature.Account.Orchestrator
         public string Token { get; set; }
         public DateTime Expired { get; set; }
         public int Id { get; set; }
+        public string Role { get; set; }
     }
 
     public class LoginOrchestratorHandler : IRequestHandler<LoginOrchestrator, Result<LoginOrchestratorResponse>>
@@ -48,7 +49,8 @@ namespace RecyclingSystem.Application.Feature.Account.Orchestrator
             {
                 Token = token,
                 Expired = loginResult.Data.Expired,
-                Id = loginResult.Data.Id
+                Id = loginResult.Data.Id,
+                Role = loginResult.Data.ApplicationUser.Role
             }, "Login successful");
         }
     }
