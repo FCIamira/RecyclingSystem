@@ -8,21 +8,16 @@ using System.Threading.Tasks;
 
 namespace RecyclingSystem.Application.DTOs.ReportsDTOs
 {
-    public class CreateReportDTO
+    public class ReportDto
     {
-        [Required]
+        public int Id { get; set; }
         public int EmployeeId { get; set; }
-
-        [Required(ErrorMessage = "Report Type is required.")]
         public ReportType Type { get; set; }
-        [Required]
         public int? PickupRequestId { get; set; }
-
         public int? WarehouseId { get; set; }
-
-        [Required(ErrorMessage = "Description is required.")]
-        [StringLength(1000, ErrorMessage = "Description cannot exceed 1000 characters.")]
         public string Description { get; set; }
-
+        public ReportStatus Status { get; set; }
+        public string? Response { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 }
