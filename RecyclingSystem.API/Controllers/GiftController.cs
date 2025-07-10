@@ -17,12 +17,12 @@ namespace RecyclingSystem.API.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost("schedule-redeem")]
-        public IActionResult ScheduleRedeemGift()
-        {
+        //[HttpPost("schedule-redeem")]
+        //public IActionResult ScheduleRedeemGift()
+        //{
 
 
-            return Ok("Job Scheduled Successfully via Hangfire");
-        }
+        //    return Ok("Job Scheduled Successfully via Hangfire");
+        //}
     }
 }
