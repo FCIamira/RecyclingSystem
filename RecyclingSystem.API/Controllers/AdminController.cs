@@ -24,7 +24,7 @@ namespace RecyclingSystem.API.Controllers
             var result = await mediator.Send(command);
 
             if (!result.IsSuccess)
-                return BadRequest(result.Message);
+                return BadRequest(result);
 
             return Ok(result);
         }
