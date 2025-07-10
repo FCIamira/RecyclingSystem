@@ -8,7 +8,7 @@ using RecyclingSystem.Domain.Common;
 using static System.Net.Mime.MediaTypeNames;
 namespace RecyclingSystem.Domain.Models
 {
-    public class Reward:BaseModel<int>
+    public class Rewards:BaseModel<int>
     {
       
         public string? Title { get; set; }

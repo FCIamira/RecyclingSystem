@@ -56,6 +56,7 @@ namespace RecyclingSystem.Application.Feature.Account.Commands
                 FullName = $"{request.registerRequest.FirstName} {request.registerRequest.LastName}",
                 Address = request.registerRequest.Address,
                 PhoneNumber= request.registerRequest.PhoneNumber,
+                
             };
 
             string[] roles = new[] { "Admin", "Manager", "Employee", "Customer" };

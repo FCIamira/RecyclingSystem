@@ -28,7 +28,7 @@ namespace RecyclingSystem.Application.Feature.Rewards.Command
 
         public async Task<Result<string>> Handle(CreateRewardCommand request, CancellationToken cancellationToken)
         {
-            var reward = mapper.Map<Reward>(request.CreateRewardDTO);
+            var reward = mapper.Map<Domain.Models.Rewards>(request.CreateRewardDTO);
 
             if (reward == null)
             {

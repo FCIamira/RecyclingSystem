@@ -47,19 +47,6 @@ namespace RecyclingSystem.Application.Feature.PointsHistories.Query
                 var userId = int.Parse(user.FindFirst(ClaimTypes.NameIdentifier).Value);
 
 
-                #region TotalEarnedPoints
-                //get total earned points
-                var EarnedPoints = _unitOfWork.pointsHistory
-                    .GetAllWithFilter(p => p.Type == Domain.Enums.PointsHistoryTypes.Earned && p.UserId == userId)
-                    .ToList();
-                if(!EarnedPoints.Any())
-                {
-                    _logger.LogWarning("Not found points history for recycling requests.");
-                }
-
-                TotalEarnedPoints = EarnedPoints.Sum(p => p.PointsChanged);
-                #endregion
-
                 #region TotalRedeemedPoints
                 //get total redeemed points
                 var ReedemedPoints = _unitOfWork.pointsHistory
@@ -85,6 +72,20 @@ namespace RecyclingSystem.Application.Feature.PointsHistories.Query
 
                 TotalAwardedPoints = AwardedPoints.Sum(p => p.PointsChanged);
                 #endregion
+
+                #region TotalEarnedPoints
+                //get total earned points include points spended and points awarded
+                var EarnedPoints = _unitOfWork.pointsHistory
+                    .GetAllWithFilter(p => p.Type == Domain.Enums.PointsHistoryTypes.Earned && p.UserId == userId)
+                    .ToList();
+                if (!EarnedPoints.Any())
+                {
+                    _logger.LogWarning("Not found points history for recycling requests.");
+                }
+
+                TotalEarnedPoints = EarnedPoints.Sum(p => p.PointsChanged) - TotalRedeemedPoints + TotalAwardedPoints;
+                #endregion
+
 
                 var points = new ShowTotalPointsDto
                 {

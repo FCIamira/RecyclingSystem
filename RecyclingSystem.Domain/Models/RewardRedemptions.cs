@@ -12,12 +12,13 @@ namespace RecyclingSystem.Domain.Models
     {
         [ForeignKey(nameof(User))]
        public int UserId {   get; set;}
-        [ForeignKey(nameof(Rewards))]
+        [ForeignKey(nameof(Reward))]
        public int  RewardId {  get; set;}
         public DateTime DateRedeemed {get;set;}
         public Status RedemptionStatus { get; set;}
-
-        public virtual Reward? Rewards { get; set;}
+        public int TotalPoints { get; set;}
+        public int Quantity { get; set;}
+        public virtual Rewards? Reward { get; set;}
         public virtual ApplicationUser? User { get; set; }//not completed
     }
 }

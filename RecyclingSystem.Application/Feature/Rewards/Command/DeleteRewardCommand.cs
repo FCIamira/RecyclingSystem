@@ -30,7 +30,7 @@ namespace RecyclingSystem.Application.Feature.Rewards.Command
 
         public async Task<Result<string>> Handle(DeleteRewardCommand request, CancellationToken cancellationToken)
         {
-            Reward reward = await unitOfWork.rewards.GetById(request.Id);
+            Domain.Models.Rewards reward = await unitOfWork.rewards.GetById(request.Id);
 
             if (reward == null)
             {

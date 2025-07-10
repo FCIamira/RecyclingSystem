@@ -23,7 +23,7 @@ namespace RecyclingSystem.Infrastructure.Context
         public DbSet<PickupRequest> PickupRequests { get; set; }
         public DbSet<PointsHistory> PointsHistories { get; set; }
         public DbSet<RewardRedemptions> RewardRedemptions { get; set; }
-        public DbSet<Reward> Rewards { get; set; }
+        public DbSet<Rewards> Rewards { get; set; }
         public DbSet<Warehouse> Warehouses { get; set; }
         public DbSet<WarehouseInventory> WarehouseInventories { get; set; }
         public DbSet<UserGift> UserGifts { get; set; }
