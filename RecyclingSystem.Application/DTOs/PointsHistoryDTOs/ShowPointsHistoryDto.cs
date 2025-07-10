@@ -15,8 +15,7 @@ namespace RecyclingSystem.Application.DTOs.PointsHistoryDTOs
         [Required]
         public int UserId { get; set; }
 
-        [ForeignKey("UserId")]
-        public ApplicationUser User { get; set; }
+        public string UserName { get; set; }
 
         [Required]
         public PointsHistoryTypes Type { get; set; }

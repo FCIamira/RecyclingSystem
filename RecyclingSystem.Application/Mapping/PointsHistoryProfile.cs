@@ -13,7 +13,8 @@ namespace RecyclingSystem.Application.Mapping
     {
         public PointsHistoryProfile()
         {
-            CreateMap<PointsHistory, ShowPointsHistoryDto>();
+            CreateMap<PointsHistory, ShowPointsHistoryDto>()
+                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.FullName));
         }
     }
 }
