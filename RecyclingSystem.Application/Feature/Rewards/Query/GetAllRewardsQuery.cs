@@ -27,8 +27,7 @@ namespace RecyclingSystem.Application.Feature.Rewards.Query
 
         public async Task<Result<List<RewardDTO>>> Handle(GetAllRewardsQuery request, CancellationToken cancellationToken)
         {
-            var rewards = await unitOfWork.rewards.GetAll()
-                ;
+            var rewards = await unitOfWork.rewards.GetAll();
             var rewardsDTO = _mapper.Map<List<RewardDTO>>(rewards);
             if (rewardsDTO == null || !rewards.Any())
             {

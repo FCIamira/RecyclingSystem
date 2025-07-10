@@ -9,6 +9,7 @@ using RecyclingSystem.Application.DTOs.PickupRequestDTOs;
 using RecyclingSystem.Domain.Models;
 using RecyclingSystem.Application.DTOs.MaterialDTOs;
 using RecyclingSystem.Application.DTOs.UserInfDTOs;
+using RecyclingSystem.Application.DTOs.WharehosingInventoryDTOs;
 namespace RecyclingSystem.Application.Mapping
 {
     public class PickupRequestProfile:Profile
@@ -51,6 +52,7 @@ namespace RecyclingSystem.Application.Mapping
 
             CreateMap<UserGift, GetAllGiftDto>().ReverseMap();
             CreateMap<AddUserGiftDto, UserGift>().ReverseMap();
+            CreateMap<WarehouseInventory,AddWharehosingInventoryDto>().ReverseMap();
         }
 
 

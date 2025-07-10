@@ -13,5 +13,7 @@ namespace RecyclingSystem.Domain.Interfaces
 
         // get a pickup request by id with all details
         Task<PickupRequest> GetByIdWithDetails(int id);
+        Task<EmployeeWarehouseHistory> GetLatestWarehouseByEmployeeIdAsync(int employeeId);
+
     }
 }

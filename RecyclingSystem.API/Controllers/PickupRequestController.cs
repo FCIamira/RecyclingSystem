@@ -97,7 +97,7 @@ namespace RecyclingSystem.API.Controllers
         #region assign-employee
         [Authorize(Roles = "Admin")]
         [HttpPost("assign-employee/{id:int}")]
-        public async Task<IActionResult> AssignEmployeeToRequest(int id, [FromForm] AssignEmployeeToRequestDto requestDto)
+        public async Task<IActionResult> AssignEmployeeToRequest(int id, [FromBody] AssignEmployeeToRequestDto requestDto)
         {
             //if (!Enum.TryParse<PickupStatus>(requestDto.Status, ignoreCase: true, out var parsedStatus))
             //{

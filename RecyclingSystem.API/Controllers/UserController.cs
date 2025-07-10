@@ -20,7 +20,7 @@ namespace RecyclingSystem.API.Controllers
 
 
         [HttpPost("CheckEmail")]
-        public async Task<IActionResult> CheckEmail([FromForm] CheckEmailCommand command)
+        public async Task<IActionResult> CheckEmail([FromBody] CheckEmailCommand command)
         {
             var isExist = await _mediator.Send(command);
             return Ok(new { isExist });
@@ -29,7 +29,7 @@ namespace RecyclingSystem.API.Controllers
 
         [HttpPost("ChangePassword")]
         [Authorize]
-        public async Task<IActionResult> ChangePassword([FromForm] ChangePasswordCommand command)
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordCommand command)
         {
             var message = await _mediator.Send(command);
             return Ok(new { message });
@@ -47,7 +47,7 @@ namespace RecyclingSystem.API.Controllers
 
         [HttpPut]
         [Authorize]
-        public async Task<IActionResult> UpdateUser([FromForm] UpdateUserCommand command)
+        public async Task<IActionResult> UpdateUser([FromBody] UpdateUserCommand command)
         {
             if(!ModelState.IsValid)
             {
