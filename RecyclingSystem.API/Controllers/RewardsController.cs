@@ -7,6 +7,7 @@ using RecyclingSystem.Application.Feature.Rewards.Command;
 using RecyclingSystem.Application.DTOs.RewardsDTOs;
 using RecyclingSystem.Application.Behaviors;
 using Microsoft.AspNetCore.Http.HttpResults;
+using RecyclingSystem.API.Validators;
 namespace RecyclingSystem.API.Controllers
 {
     [Route("api/[controller]")]
@@ -26,10 +27,7 @@ namespace RecyclingSystem.API.Controllers
         {
             var query = new GetAllRewardsQuery { };
             var result = await mediator.Send(query);
-            if (!result.IsSuccess)
-                return NotFound(result.Message);
-
-            return Ok(result);
+            return result.ToActionResult();
         }
 
      

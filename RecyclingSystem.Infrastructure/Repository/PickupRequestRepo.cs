@@ -33,6 +33,7 @@ namespace RecyclingSystem.Infrastructure.Repository
             return pickupRequests;
         }
 
+      
 
         public async Task<PickupRequest?> GetByIdWithDetails(int id)
         {
@@ -45,6 +46,19 @@ namespace RecyclingSystem.Infrastructure.Repository
             return pickupRequest;
         }
 
+
+      
+        public async Task<EmployeeWarehouseHistory> GetLatestWarehouseByEmployeeIdAsync(int employeeId)
+        {
+            var result =  await context.EmployeesHistories
+                .Where(e => e.EmployeeId == employeeId)
+                .OrderByDescending(e => e.AssignedDate)
+                .FirstOrDefaultAsync();
+            return result;
+        }
+
+
+
     }
-        
+
 }

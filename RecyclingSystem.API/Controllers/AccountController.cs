@@ -25,7 +25,7 @@ namespace RecyclingSystem.API.Controllers
         #region Register
         
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromForm] RegisterRequest model)
+        public async Task<IActionResult> Register([FromBody] RegisterRequest model)
         {
             if (!ModelState.IsValid)
             {
@@ -39,7 +39,7 @@ namespace RecyclingSystem.API.Controllers
 
         #region Login
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromForm] LoginRequest model)
+        public async Task<IActionResult> Login([FromBody] LoginRequest model)
         {
             if (!ModelState.IsValid)
             {
