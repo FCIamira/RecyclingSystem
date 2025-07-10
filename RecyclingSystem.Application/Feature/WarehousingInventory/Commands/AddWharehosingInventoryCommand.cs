@@ -31,11 +31,11 @@ namespace RecyclingSystem.Application.Feature.WarehousingInventory.Commands
         private readonly IMapper _mapper;
         private readonly ILogger<AddWharehosingInventoryCommandHandler> _logger;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly HttpContextAccessor _httpContextAccessor;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMediator _mediator;
 
         public AddWharehosingInventoryCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, ILogger<AddWharehosingInventoryCommandHandler> logger,
-            UserManager<ApplicationUser> userManager, HttpContextAccessor httpContextAccessor,IMediator mediator)
+            UserManager<ApplicationUser> userManager, IHttpContextAccessor httpContextAccessor,IMediator mediator)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;

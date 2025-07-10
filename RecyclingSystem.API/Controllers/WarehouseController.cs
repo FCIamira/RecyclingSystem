@@ -18,7 +18,7 @@ namespace RecyclingSystem.API.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> AddWarehouse([FromForm] AddWarehouseCommond commond)
+        public async Task<IActionResult> AddWarehouse([FromBody] AddWarehouseCommond commond)
         {
             var message = await _mediator.Send(commond);
             return Ok(new {  message });

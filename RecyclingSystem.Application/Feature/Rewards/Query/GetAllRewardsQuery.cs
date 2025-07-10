@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using RecyclingSystem.Application.Behaviors;
 using RecyclingSystem.Domain.Enums;
+using RecyclingSystem.Domain.Models;
+
 namespace RecyclingSystem.Application.Feature.Rewards.Query
 {
     public class GetAllRewardsQuery : IRequest<Result<List<RewardDTO>>>

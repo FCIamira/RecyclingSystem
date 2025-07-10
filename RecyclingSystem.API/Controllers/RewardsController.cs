@@ -8,6 +8,7 @@ using RecyclingSystem.Application.DTOs.RewardsDTOs;
 using RecyclingSystem.Application.Behaviors;
 using Microsoft.AspNetCore.Http.HttpResults;
 using RecyclingSystem.API.Validators;
+using Microsoft.AspNetCore.Hosting;
 namespace RecyclingSystem.API.Controllers
 {
     [Route("api/[controller]")]
@@ -15,10 +16,13 @@ namespace RecyclingSystem.API.Controllers
     public class RewardsController : ControllerBase
     {
         private readonly IMediator mediator;
-        public RewardsController(IMediator mediator)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+
+        public RewardsController(IMediator mediator, IWebHostEnvironment webHostEnvironment)
         {
 
             this.mediator = mediator;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         #region get all rewards
@@ -69,15 +73,15 @@ namespace RecyclingSystem.API.Controllers
 
         [HttpPost]
 
-        public async Task<IActionResult> AddNewReward(CreateRewardDTO rewardFromRequest)
+        public async Task<IActionResult> AddNewReward([FromForm]CreateRewardDTO rewardFromRequest)
         {
-           var result= await mediator.Send(new CreateRewardCommand { CreateRewardDTO=rewardFromRequest});
-            if (!result.IsSuccess)
-                return BadRequest(result);
-
-            return Ok(result);
+            
+            var result= await mediator.Send(new CreateRewardCommand { CreateRewardDTO=rewardFromRequest});
+            return result.ToActionResult();
         }
         #endregion
+
+
 
         #region remove reward
         [HttpDelete("{id}")]
