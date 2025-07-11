@@ -22,6 +22,7 @@ namespace RecyclingSystem.Application.DTOs.UserInfDTOs
         [MaxLength(11, ErrorMessage = "Phone Number cannot exceed 11 number.")]
         public string? PhoneNumber { get; set; }
         public string? ProfilePictureUrl { get; set; }
+        public int TotalPoints { get; set; }
         public DateTime CreatedAt { get; set; }
     }
 }
