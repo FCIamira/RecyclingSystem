@@ -38,14 +38,6 @@ namespace RecyclingSystem.Application.Feature.PickupItems.Commands
                 PlannedQuantity = item.PlannedQuantity
             }).ToList();
 
-            var totalQuantity = pickupItems.Sum(item => item.PlannedQuantity);
-
-            if (totalQuantity < 5)
-            {
-                // Return a failure result with an error code and message
-                return await Task.FromResult(Result<CreatePickupItemsResponse>.Failure(ErrorCode.BadRequest, "Total planned quantity of items must be at least 5."));
-            }
-
             pickupItems.ForEach(item => _unitOfWork.pickupItem.Add(item));
             await _unitOfWork.SaveChangesAsync();
 

@@ -1,8 +1,11 @@
 ﻿using Hangfire;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using RecyclingSystem.API.Validators;
 using RecyclingSystem.Application.Feature.UserInfo.Orchestration;
+using RecyclingSystem.Application.Feature.UserInfo.Queries;
 
 namespace RecyclingSystem.API.Controllers
 {
@@ -17,12 +20,15 @@ namespace RecyclingSystem.API.Controllers
             _mediator = mediator;
         }
 
-        //[HttpPost("schedule-redeem")]
-        //public IActionResult ScheduleRedeemGift()
-        //{
+        #region GetAllGift
 
-
-        //    return Ok("Job Scheduled Successfully via Hangfire");
-        //}
+        [Authorize]
+        [HttpGet("Get All Gift")]
+        public async Task<IActionResult> GetAllGift()
+        {
+            var result = await _mediator.Send(new GetAllGiftForUserQueries());
+            return result.ToActionResult();
+        }
+        #endregion
     }
 }

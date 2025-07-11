@@ -55,27 +55,8 @@ namespace RecyclingSystem.API.Controllers
         }
         #endregion
 
-        //#region GetTotalQuantity
-        //[Authorize]
-        //[HttpGet("TotalQuantitywith-userName")]
 
-        //public async Task<IActionResult> GetTotalQuantity()
-        //{
-        //    var result = await _mediator.Send(new GetUserTotalQuantityQuery());
-        //    return result.ToActionResult();
-        //}
-        //#endregion
-
-        //#region GetAllGift
-
-        //[Authorize]
-        //[HttpGet("Get All Gift")]
-        //public async Task<IActionResult> GetAllGift()
-        //{
-        //    var result =await _mediator.Send(new GetAllGiftForUserQueries());
-        //    return result.ToActionResult();
-        //}
-        //#endregion
+        
 
         #region CreatePickupRequest
         [HttpPost]
