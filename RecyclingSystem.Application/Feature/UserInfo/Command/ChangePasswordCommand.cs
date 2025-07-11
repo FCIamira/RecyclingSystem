@@ -58,7 +58,7 @@ namespace RecyclingSystem.Application.Feature.UserInfo.Command
                     return "Password change failed.";
                 }
 
-                return "Change password success";
+                return "Password changed successfully";
             }
             catch (Exception ex)
             {
