@@ -7,24 +7,24 @@ using RecyclingSystem.Domain.Enums;
 using RecyclingSystem.Domain.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace RecyclingSystem.Application.Feature.UserInfo.Command
 {
-    public class checkEmailResponse
+
+    public class CheckEmailCommand : IRequest<string>
     {
         public string Email { get; set; }
-        public bool isExist { get; set; }
+        public string OldPassword { get; set; }
+        public string NewPassword { get; set; }
+        [Compare("NewPassword")]
+        public string ConfirmPassword { get; set; }
     }
 
-    public class CheckEmailCommand : IRequest<Result<checkEmailResponse>>
-    {
-        public string Email { get; set; }
-    }
-
-    public class CheckEmailCommandHandler : IRequestHandler<CheckEmailCommand, Result<checkEmailResponse>>
+    public class CheckEmailCommandHandler : IRequestHandler<CheckEmailCommand, string>
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<CheckEmailCommandHandler> _logger;
@@ -34,7 +34,7 @@ namespace RecyclingSystem.Application.Feature.UserInfo.Command
             _logger = logger;
         }
 
-        public async Task<Result<checkEmailResponse>> Handle(CheckEmailCommand request, CancellationToken cancellationToken)
+        public async Task<string> Handle(CheckEmailCommand request, CancellationToken cancellationToken)
         {
             _logger.LogInformation("Checking if email exists.");
             try
@@ -43,17 +43,22 @@ namespace RecyclingSystem.Application.Feature.UserInfo.Command
                 if (user == null)
                 {
                     _logger.LogWarning("Email not found.");
-                    return Result<checkEmailResponse>.Failure(ErrorCode.NotFound,"Email not found");
+                    return "Email not found";
                 }
-                return Result<checkEmailResponse>.Success(new checkEmailResponse {
-                    Email = request.Email,
-                    isExist = true
-                });
+
+                var result = await _userManager.ChangePasswordAsync(user, request.OldPassword, request.NewPassword);
+                if (!result.Succeeded)
+                {
+                    _logger.LogWarning("Password change failed: {Errors}", string.Join(", ", result.Errors.Select(e => e.Description)));
+                    return "Password change failed.";
+                }
+
+                return "Password changed successfully";
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An error occurred while checking the email.");
-                return Result<checkEmailResponse>.Failure(ErrorCode.BadRequest, "An unexpected error occurred while processing your request.");
+                return "An unexpected error occurred while processing your request.";
             }
         }
     }

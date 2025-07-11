@@ -22,8 +22,8 @@ namespace RecyclingSystem.API.Controllers
         [HttpPost("CheckEmail")]
         public async Task<IActionResult> CheckEmail([FromBody] CheckEmailCommand command)
         {
-            var isExist = await _mediator.Send(command);
-            return Ok(new { isExist });
+            var message = await _mediator.Send(command);
+            return Ok(new { message });
         }
 
 
