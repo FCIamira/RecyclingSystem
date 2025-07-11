@@ -19,7 +19,7 @@ namespace RecyclingSystem.API.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Customer")]
+        [Authorize]
         public async Task<IActionResult> GetAll()
         {
             var notifications = await _mediator.Send(new GetAllNotificationsQuery());
