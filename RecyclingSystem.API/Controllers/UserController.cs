@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RecyclingSystem.API.Validators;
 using RecyclingSystem.Application.Behaviors;
 using RecyclingSystem.Application.Feature.UserInfo.Command;
 using RecyclingSystem.Application.Feature.UserInfo.Queries;
@@ -57,5 +58,17 @@ namespace RecyclingSystem.API.Controllers
             var message = await _mediator.Send(command);
             return Ok(new { message }); 
         }
+
+
+        #region GetTotalQuantity
+        [Authorize]
+        [HttpGet("TotalQuantitywith-userName")]
+
+        public async Task<IActionResult> GetTotalQuantity()
+        {
+            var result = await _mediator.Send(new GetUserTotalQuantityQuery());
+            return result.ToActionResult();
+        }
+        #endregion
     }
 }
