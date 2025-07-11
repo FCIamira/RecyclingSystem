@@ -12,6 +12,7 @@ namespace RecyclingSystem.Application.DTOs.PickupRequestDTOs
 {
     public class GetAllRequestDto
     {
+        public int Id { get; set; }
         public DateTime RequestedDate { get; set; }
         public string Status { get; set; }
         public List<GetMaterialWithQuantityDto>? MaterialWithQuantity { get; set; }
