@@ -51,6 +51,13 @@ namespace RecyclingSystem.Application.Feature.UserInfo.Command
 
                 var user = await _userManager.GetUserAsync(httpUser);
 
+                var checkPass = await _userManager.CheckPasswordAsync(user, request.OldPassword);
+                if (!checkPass)
+                {
+                    _logger.LogWarning("Old password is incorrect.");
+                    return "Old password is incorrect.";
+                }
+
                 var result = await _userManager.ChangePasswordAsync(user, request.OldPassword, request.NewPassword);
                 if (!result.Succeeded)
                 {
@@ -58,7 +65,7 @@ namespace RecyclingSystem.Application.Feature.UserInfo.Command
                     return "Password change failed.";
                 }
 
-                return "Password changed successfully";
+                return "Password changed successfully.";
             }
             catch (Exception ex)
             {
