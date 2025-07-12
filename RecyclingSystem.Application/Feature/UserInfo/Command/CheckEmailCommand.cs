@@ -45,12 +45,6 @@ namespace RecyclingSystem.Application.Feature.UserInfo.Command
                     _logger.LogWarning("Email not found.");
                     return "Email not found.";
                 }
-                var checkPass = await _userManager.CheckPasswordAsync(user, request.OldPassword);
-                if (!checkPass)
-                {
-                    _logger.LogWarning("Old password is incorrect.");
-                    return "Old password is incorrect.";
-                }
 
                 var result = await _userManager.ChangePasswordAsync(user, request.OldPassword, request.NewPassword);
                 if (!result.Succeeded)
