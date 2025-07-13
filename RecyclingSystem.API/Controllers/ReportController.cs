@@ -39,7 +39,7 @@ namespace RecyclingSystem.API.Controllers
             return BadRequest(ModelState);
         }
 
-        [Authorize(Roles = "Admin,Employee")]
+        [Authorize(Roles = "Admin, Employee")]
         [HttpGet]
         public async Task<IActionResult> GetAllReports([FromQuery] string? status)
         {

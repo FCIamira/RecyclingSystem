@@ -1,4 +1,5 @@
-﻿using RecyclingSystem.Domain.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using RecyclingSystem.Domain.Interfaces;
 using RecyclingSystem.Domain.Models;
 using RecyclingSystem.Infrastructure.Context;
 using System;

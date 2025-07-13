@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RecyclingSystem.Application.Feature.Warehouses.Commonds;
+using RecyclingSystem.Application.Feature.Warehouses.Query;
 
 namespace RecyclingSystem.API.Controllers
 {
@@ -22,6 +23,15 @@ namespace RecyclingSystem.API.Controllers
         {
             var message = await _mediator.Send(commond);
             return Ok(new {  message });
+        }
+
+        
+        [HttpGet]
+        [Authorize(Roles = "Admin, Employee")]
+        public async Task<IActionResult> GetAllWarehouses()
+        {
+            var warehouses = await _mediator.Send(new GetAllWarehouseQuery());
+            return Ok(warehouses);
         }
     }
 }
