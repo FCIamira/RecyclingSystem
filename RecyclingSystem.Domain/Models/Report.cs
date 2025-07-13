@@ -16,7 +16,6 @@ namespace RecyclingSystem.Domain.Models
 
         [Required(ErrorMessage = "Report Type is required.")]
         public ReportType Type { get; set; }
-        [Required]
         public int? PickupRequestId { get; set; }
 
         public int? WarehouseId { get; set; }
