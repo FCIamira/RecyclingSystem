@@ -21,6 +21,10 @@ namespace RecyclingSystem.Application.DTOs.UserInfDTOs
 
         [MaxLength(11, ErrorMessage = "Phone Number cannot exceed 11 number.")]
         public string? PhoneNumber { get; set; }
+
+        [Required]
+        [RegularExpression("Customer|Employee|Admin|Manager", ErrorMessage = "Invalid role")]
+        public string Role { get; set; }
         public string? ProfilePictureUrl { get; set; }
         public int? TotalPoints { get; set; }
         public DateTime? CreatedAt { get; set; }

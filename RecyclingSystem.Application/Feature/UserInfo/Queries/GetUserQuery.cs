@@ -48,7 +48,7 @@ namespace RecyclingSystem.Application.Feature.UserInfo.Queries
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An error occurred while retrieving notifications for user.");
+                _logger.LogError(ex, "An error occurred while retrieving user.");
                 return Result<UserInfoDto>.Failure(ErrorCode.ServerError, "An unexpected error occurred while processing your request.");
             }
         }
