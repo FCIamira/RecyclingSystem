@@ -18,7 +18,7 @@ namespace RecyclingSystem.Application.DTOs.RewardRedemptionsDTOs
         public int RewardId { get; set; }
 
         // public DateTime DateRedeemed { get; set; }
-        public Status RedemptionStatus { get; set; } = Status.Pending;
+        // public Status RedemptionStatus { get; set; } = Status.Pending;
         public int Quantity { get; set; }
     }
 }

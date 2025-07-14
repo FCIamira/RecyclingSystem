@@ -17,6 +17,7 @@ namespace RecyclingSystem.Domain.Interfaces
         Task Update(int id, T obj);
         Task<T> GetById(int id);
         IQueryable<T> GetAllWithFilter(Expression<Func<T, bool>> filter);
+        Task<T> GetSpecificWithFilter(Expression<Func<T, bool>> filter);
         public Task<bool> RemoveByExpression(Expression<Func<T, bool>> predicate);
         Task<IEnumerable<T>> GetAll();
     }

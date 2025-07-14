@@ -9,6 +9,7 @@ using RecyclingSystem.Application.Behaviors;
 using Microsoft.AspNetCore.Http.HttpResults;
 using RecyclingSystem.API.Validators;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Authorization;
 namespace RecyclingSystem.API.Controllers
 {
     [Route("api/[controller]")]
@@ -73,7 +74,7 @@ namespace RecyclingSystem.API.Controllers
 
         [HttpPost]
 
-        public async Task<IActionResult> AddNewReward([FromForm]CreateRewardDTO rewardFromRequest)
+        public async Task<IActionResult> AddNewReward([FromBody]CreateRewardDTO rewardFromRequest)
         {
             
             var result= await mediator.Send(new CreateRewardCommand { CreateRewardDTO=rewardFromRequest});
@@ -81,7 +82,13 @@ namespace RecyclingSystem.API.Controllers
         }
         #endregion
 
-
+        [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> UpdateReward(int id, [FromBody] UpdateRewardDTO updateRewardDTO)
+        {
+            var result = await mediator.Send(new UpdateRewardCommand { UpdatedReward = updateRewardDTO, rewardId = id });
+            return result.ToActionResult();
+        }
 
         #region remove reward
         [HttpDelete("{id}")]

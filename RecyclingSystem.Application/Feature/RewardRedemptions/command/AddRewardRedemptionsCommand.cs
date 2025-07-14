@@ -56,7 +56,7 @@ namespace RecyclingSystem.Application.Feature.RewardRedemptions.command
                 UserId = user.Id,
                 RewardId = reward.Id,
                 DateRedeemed = DateTime.UtcNow,
-                RedemptionStatus = Status.Pending,
+                RedemptionStatus = Status.Approved,
                 Quantity = request.redemptionsDTO.Quantity,
                 TotalPoints = totalPointsToReplaced
             };

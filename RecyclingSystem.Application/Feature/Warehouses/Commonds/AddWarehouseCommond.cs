@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
 using RecyclingSystem.Application.Behaviors;
+using RecyclingSystem.Application.DTOs.WarehouseDTOs;
 using RecyclingSystem.Domain.Interfaces;
 using RecyclingSystem.Domain.Models;
 using System;
@@ -13,9 +14,7 @@ namespace RecyclingSystem.Application.Feature.Warehouses.Commonds
 {
     public class AddWarehouseCommond : IRequest<string>
     {
-        public string Name { get; set; }
-        public string Location { get; set; }
-        public int ManagerId { get; set; }
+        public createWarehouseDto warehouseDto { get; set; }
     }
 
     public class AddWarehouseCommondHandler : IRequestHandler<AddWarehouseCommond, string>
@@ -33,7 +32,7 @@ namespace RecyclingSystem.Application.Feature.Warehouses.Commonds
             _logger.LogInformation("Add new warehouse by (Admin)");
             try
             {
-                var manager = await _unitOfWork.applicationUser.GetById(request.ManagerId);
+                var manager = await _unitOfWork.applicationUser.GetSpecificWithFilter(u => u.Email == request.warehouseDto.ManagerEmail);
                 if(manager == null)
                 {
                     _logger.LogWarning("Manager with ID not found");
@@ -42,9 +41,9 @@ namespace RecyclingSystem.Application.Feature.Warehouses.Commonds
 
                 var warehouse = new Warehouse
                 {
-                    Name = request.Name,
-                    Location = request.Location,
-                    ManagerId = request.ManagerId
+                    Name = request.warehouseDto.Name,
+                    Location = request.warehouseDto.Location,
+                    ManagerId = manager.Id,
                 };
 
                 await _unitOfWork.warehouse.Add(warehouse);
