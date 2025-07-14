@@ -45,6 +45,14 @@ namespace RecyclingSystem.API.Controllers
             return Ok(user);
         }
 
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            var users = await _mediator.Send(new GetAllUsersQuery());
+            return Ok(users);
+        }
+
 
         [HttpPut]
         [Authorize]
