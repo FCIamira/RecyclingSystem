@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RecyclingSystem.Application.Feature.Warehouses.Commonds;
 using RecyclingSystem.Application.Feature.WarehousingInventory.Commands;
+using RecyclingSystem.Application.Feature.WarehousingInventory.query;
 
 namespace RecyclingSystem.API.Controllers
 {
@@ -10,12 +11,29 @@ namespace RecyclingSystem.API.Controllers
     [ApiController]
     public class WarehouseInventoryController : ControllerBase
     {
-       private readonly IMediator mediator;
-        public WarehouseInventoryController( IMediator mediator) { 
-         this.mediator = mediator;
+        private readonly IMediator mediator;
+        public WarehouseInventoryController(IMediator mediator) {
+            this.mediator = mediator;
         }
 
-       [ HttpPost]
+
+        #region get all warehousesInventory
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var result = await mediator.Send(new GetAllWarehouseInventoryQuery());
+
+            if (result.IsSuccess)
+                return Ok(result);
+
+            return BadRequest(result);
+        }
+
+
+        #endregion
+
+        [HttpPost]
  public async Task<IActionResult> addWarehouseInventory( int materialId,int quantity)
         {
 
