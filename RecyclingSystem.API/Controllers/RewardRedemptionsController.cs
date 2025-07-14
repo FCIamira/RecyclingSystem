@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RecyclingSystem.Application.DTOs.RewardRedemptionsDTOs;
@@ -19,6 +20,7 @@ namespace RecyclingSystem.API.Controllers
 
         #region add RewardRedemption
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> AddNewRewardRedemption( AddRewardRedemptionsDTO redemptionsDTO)
         {
             var result=await mediator.Send(new AddRewardRedemptionsCommand
