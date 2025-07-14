@@ -74,7 +74,7 @@ namespace RecyclingSystem.API.Controllers
 
         [HttpPost]
 
-        public async Task<IActionResult> AddNewReward([FromForm]CreateRewardDTO rewardFromRequest)
+        public async Task<IActionResult> AddNewReward([FromBody]CreateRewardDTO rewardFromRequest)
         {
             
             var result= await mediator.Send(new CreateRewardCommand { CreateRewardDTO=rewardFromRequest});
