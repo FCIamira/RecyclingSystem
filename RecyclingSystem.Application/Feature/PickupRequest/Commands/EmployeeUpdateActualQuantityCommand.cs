@@ -42,10 +42,6 @@ namespace RecyclingSystem.Application.Feature.PickupRequest.Commands
             {
                 return await Task.FromResult(Result<EmployeeUpdateActualQuantityResponse>.Failure(ErrorCode.BadRequest, "Actual quantity cannot be negative."));
             }
-            if(request.ActualQuantity > pickupItem.PlannedQuantity)
-            {
-                return await Task.FromResult(Result<EmployeeUpdateActualQuantityResponse>.Failure(ErrorCode.BadRequest, "Actual quantity cannot exceed planned quantity."));
-            }
 
             pickupItem.ActualQuantity = request.ActualQuantity;
             await _unitOfWork.pickupItem.Update(pickupItem.Id, pickupItem);
