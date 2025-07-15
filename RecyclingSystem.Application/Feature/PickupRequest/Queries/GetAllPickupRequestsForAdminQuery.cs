@@ -38,13 +38,19 @@ namespace RecyclingSystem.Application.Feature.PickupRequest.Queries
                 {
                     Id = pr.Employee.Id,
                     FullName = pr.Employee.FullName,
-                    Email = pr.Employee.Email
+                    Email = pr.Employee.Email,
+                    PhoneNumber = pr.Employee.PhoneNumber,
+                    Address = pr.Employee.Address,
+                    ProfilePictureUrl = pr.Employee.ProfilePictureUrl,
                 } : null,
                 Customer = new UserInfoDto
                 {
                     Id = pr.Customer.Id,
                     FullName = pr.Customer.FullName,
-                    Email = pr.Customer.Email
+                    Email = pr.Customer.Email,
+                    PhoneNumber = pr.Customer.PhoneNumber,
+                    Address = pr.Customer.Address,
+                    ProfilePictureUrl = pr.Customer.ProfilePictureUrl,
                 },
                 RequestedDate = pr.RequestedDate,
                 ScheduledDate = pr.ScheduledDate,
