@@ -35,7 +35,7 @@ namespace RecyclingSystem.Application.DTOs.AccountDTOs
         [DataType(DataType.Password)]
         public string ConfirmPassword { get; set; } = null!;
         public string WarehouseName { get; set; }
-        public int WarehouseId { get; set; }
+        public int? WarehouseId { get; set; }
         
     }
 }
