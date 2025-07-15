@@ -22,10 +22,9 @@ namespace RecyclingSystem.Infrastructure.Repository
 
         public async Task<List<PickupRequest>> GetAllDetails()
         {
-
-
             var pickupRequests = await context.PickupRequests
                 .Include(p => p.Customer)
+                .Include(p => p.Employee)
                 .Include(p => p.PickupItems)
                     .ThenInclude(pi => pi.Material)
                 .ToListAsync();
