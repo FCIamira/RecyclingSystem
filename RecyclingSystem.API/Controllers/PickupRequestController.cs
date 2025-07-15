@@ -34,6 +34,14 @@ namespace RecyclingSystem.API.Controllers
             _mediator = mediator;
         }
 
+        [HttpGet("all")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetAllPickupRequestsForAdmin()
+        {
+            var result = await _mediator.Send(new GetAllPickupRequestsForAdminQuery());
+            return Ok(result);
+        }
+
         #region GetAll
         [Authorize]
         [HttpGet]
