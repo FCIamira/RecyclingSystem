@@ -72,7 +72,7 @@ namespace RecyclingSystem.Application.Feature.PickupRequest.Commands
                 {
                     Email = request.Email,
                    // Status= request.Status.ToString(),
-                });
+                }, $"{request.Email} has been assigned to the request successfully");
 
             }
 
