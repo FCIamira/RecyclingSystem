@@ -48,6 +48,7 @@ namespace RecyclingSystem.Application.Feature.AdminFeature.Command
                 Email = dto.EmailAddress,
                 FullName = $"{dto.FirstName} {dto.LastName}",
                 Address = dto.Address,
+                PhoneNumber = dto.PhoneNumber,
                 Role = "Employee",
                 CreatedAt = DateTime.UtcNow
             };
@@ -64,10 +65,16 @@ namespace RecyclingSystem.Application.Feature.AdminFeature.Command
 
             await _userManager.AddToRoleAsync(employee, "Employee");
 
+            var warehouse = await _unitOfWork.warehouse.GetSpecificWithFilter(w => w.Name == dto.WarehouseName);
+            if (warehouse != null)
+            {
+                return Result<string>.Failure(ErrorCode.NotFound, "Warehouse not found.");
+            }
+
             var employeeWarehouseHistory = new EmployeeWarehouseHistory
             {
                 EmployeeId = employee.Id,
-                WarehouseId = dto.WarehouseId, 
+                WarehouseId = warehouse.Id, 
                 AssignedDate = DateTime.UtcNow
             };
 
