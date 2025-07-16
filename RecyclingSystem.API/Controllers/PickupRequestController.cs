@@ -148,5 +148,13 @@ namespace RecyclingSystem.API.Controllers
             var result = await _mediator.Send(new GetTotalRequestsForCustomerQuery { CustomerId = id });
             return Ok(result);
         }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet("TotalCollected&Scheduled/{id:int}")]
+        public async Task<IActionResult> GetTotalRequestsAssignedAndCollected(int id)
+        {
+            var result = await _mediator.Send(new GetTotalRequestsForEmployeeQuery { EmployeeId = id});
+            return Ok(result);
+        }
     }
 }
