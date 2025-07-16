@@ -37,7 +37,7 @@ namespace RecyclingSystem.Application.Feature.PickupRequest.Orchestrator
             // Validate the request
             if (request.CustomerId <= 0 || request.Points <= 0)
             {
-                return await Task.FromResult(Result<AssignNewPointsForCustomerResponse>.Failure(ErrorCode.BadRequest, "Invalid Customer ID or points."));
+                return await Task.FromResult(Result<AssignNewPointsForCustomerResponse>.Failure(ErrorCode.BadRequest, $"Invalid Customer ID or points. | CustomerId: {request.CustomerId} | Points: {request.Points}"));
             }
 
             #region Create points history entry

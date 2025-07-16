@@ -135,9 +135,9 @@ namespace RecyclingSystem.API.Controllers
 
         [Authorize(Roles = "Employee")]
         [HttpPut("employee-collect/{id:int}")]
-        public async Task<IActionResult> CollectPickupRequest(int id, [FromBody] List<UpdatePickupItemsActualQuantity> actualQuantities)
+        public async Task<IActionResult> CollectPickupRequest(int id, [FromBody] List<UpdatePickupItemsActualQuantity> materialsActualQuantities)
         {
-            var result = await _mediator.Send(new EmployeeCollectPickupRequestOrchestrator { PickupRequestId = id, updatePickupItemsActualQuantities = actualQuantities });
+            var result = await _mediator.Send(new EmployeeCollectPickupRequestOrchestrator { PickupRequestId = id, updatePickupItemsActualQuantities = materialsActualQuantities });
             return Ok(result);
         }
     }

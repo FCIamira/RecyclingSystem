@@ -8,7 +8,7 @@ namespace RecyclingSystem.Application.DTOs.PickupItemDTOs
 {
     public class UpdatePickupItemsActualQuantity
     {
-        public int PickupItemId { get; set; }
+        public int MaterialId { get; set; }
         public int ActualQuantity { get; set; } // The actual quantity collected by the employee
     }
 }
