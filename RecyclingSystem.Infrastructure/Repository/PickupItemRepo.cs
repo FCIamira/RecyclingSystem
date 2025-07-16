@@ -18,6 +18,11 @@ namespace RecyclingSystem.Infrastructure.Repository
             context = _context;
         }
 
-        
+        public Task<PickupItem?> GetByRequestIdAndMaterialId(int pickupRequestId, int materialId)
+        {
+            return Task.FromResult(context.PickupItems
+                .FirstOrDefault(p => p.PickupRequestId == pickupRequestId && p.MaterialId == materialId));
+
+        }
     }
 }

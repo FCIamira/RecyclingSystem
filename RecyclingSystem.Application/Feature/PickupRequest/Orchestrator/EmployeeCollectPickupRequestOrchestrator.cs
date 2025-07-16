@@ -79,7 +79,8 @@ namespace RecyclingSystem.Application.Feature.PickupRequest.Orchestrator
             {
                 var result = await _mediator.Send(new EmployeeUpdateActualQuantityCommand
                 {
-                    PickupItemId = item.PickupItemId,
+                    PickupRequestId = request.PickupRequestId,
+                    MaterialId = item.MaterialId,
                     ActualQuantity = item.ActualQuantity,
                 }, cancellationToken);
 
