@@ -66,7 +66,7 @@ namespace RecyclingSystem.Application.Feature.AdminFeature.Command
             await _userManager.AddToRoleAsync(employee, "Employee");
 
             var warehouse = await _unitOfWork.warehouse.GetSpecificWithFilter(w => w.Name == dto.WarehouseName);
-            if (warehouse != null)
+            if (warehouse == null)
             {
                 return Result<string>.Failure(ErrorCode.NotFound, "Warehouse not found.");
             }

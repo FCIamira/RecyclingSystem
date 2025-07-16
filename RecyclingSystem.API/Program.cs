@@ -36,8 +36,6 @@ namespace RecyclingSystem.API
             builder.Services.AddDbContext<RecyclingDbContext>(options =>
 
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
-                //options.UseSqlServer(builder.Configuration.GetConnectionString("Madonna"))
-                //options.UseSqlServer(builder.Configuration.GetConnectionString("MarlyCS"))
                 );
 
 
@@ -53,9 +51,10 @@ namespace RecyclingSystem.API
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("MyPolicy", policy =>
-                    policy.AllowAnyOrigin()
+                    policy.WithOrigins("http://localhost:4200")
                           .AllowAnyMethod()
-                          .AllowAnyHeader());
+                          .AllowAnyHeader()
+                          .AllowCredentials());
             });
 
 
