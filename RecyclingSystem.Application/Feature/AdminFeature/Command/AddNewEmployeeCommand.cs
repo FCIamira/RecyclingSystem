@@ -39,7 +39,7 @@ namespace RecyclingSystem.Application.Feature.AdminFeature.Command
             // Check if user already exists
             var existingUser = await _userManager.FindByEmailAsync(dto.EmailAddress);
             if (existingUser != null)
-                return Result<string>.Failure("This email is already registered.");
+                return Result<string>.Failure(ErrorCode.ValidationError, "This email is already registered.");
 
             // Create new user
             var employee = new ApplicationUser
@@ -48,13 +48,17 @@ namespace RecyclingSystem.Application.Feature.AdminFeature.Command
                 Email = dto.EmailAddress,
                 FullName = $"{dto.FirstName} {dto.LastName}",
                 Address = dto.Address,
+                PhoneNumber = dto.PhoneNumber,
                 Role = "Employee",
                 CreatedAt = DateTime.UtcNow
             };
 
             IdentityResult result = await _userManager.CreateAsync(employee, dto.Password);
             if (!result.Succeeded)
-                return Result<string>.Failure(result.Errors.First().Description);
+            {
+                var errorDescription = result.Errors.FirstOrDefault()?.Description ?? "Failed to create user.";
+                return Result<string>.Failure(ErrorCode.ValidationError, errorDescription);
+            }
         
             // Ensure role exists
             if (!await _roleManager.RoleExistsAsync("Employee"))
@@ -64,10 +68,16 @@ namespace RecyclingSystem.Application.Feature.AdminFeature.Command
 
             await _userManager.AddToRoleAsync(employee, "Employee");
 
+            var warehouse = await _unitOfWork.warehouse.GetSpecificWithFilter(w => w.Name == dto.WarehouseName);
+            if (warehouse == null)
+            {
+                return Result<string>.Failure(ErrorCode.NotFound, "Warehouse not found.");
+            }
+
             var employeeWarehouseHistory = new EmployeeWarehouseHistory
             {
                 EmployeeId = employee.Id,
-                WarehouseId = dto.WarehouseId, 
+                WarehouseId = warehouse.Id, 
                 AssignedDate = DateTime.UtcNow
             };
 
