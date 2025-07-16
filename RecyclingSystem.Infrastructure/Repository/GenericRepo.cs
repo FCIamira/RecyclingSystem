@@ -84,5 +84,9 @@ namespace RecyclingSystem.Infrastructure.Repository
             return await _dbSet.Where(filter).Where(e => EF.Property<bool>(e, "IsDeleted") == false).FirstOrDefaultAsync();
         }
 
+        public async Task<int> CountAsync(Expression<Func<T, bool>> filter)
+        {
+            return await _dbSet.Where(e => EF.Property<bool>(e, "IsDeleted") == false).Where(filter).CountAsync();
+        }
     }
 }

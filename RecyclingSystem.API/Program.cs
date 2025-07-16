@@ -36,8 +36,6 @@ namespace RecyclingSystem.API
             builder.Services.AddDbContext<RecyclingDbContext>(options =>
 
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
-                //options.UseSqlServer(builder.Configuration.GetConnectionString("Madonna"))
-                //options.UseSqlServer(builder.Configuration.GetConnectionString("MarlyCS"))
                 );
 
 
