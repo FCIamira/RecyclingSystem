@@ -18,7 +18,7 @@ namespace RecyclingSystem.Application.Feature.UserInfo.Command
 
     public class UpdateUserTotalPointsResponse
     {
-        public int UserId { get; set; }
+        public int CustomerId { get; set; }
         public int TotalPoints { get; set; }
     }
 
@@ -46,7 +46,7 @@ namespace RecyclingSystem.Application.Feature.UserInfo.Command
             await _unitOfWork.SaveChangesAsync();
             return Result<UpdateUserTotalPointsResponse>.Success(new UpdateUserTotalPointsResponse
             {
-                UserId = user.Id,
+                CustomerId = user.Id,
                 TotalPoints = user.TotalPoints
             }, "User Points Has Been Updated");
         }

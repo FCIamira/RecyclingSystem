@@ -17,6 +17,7 @@ using RecyclingSystem.Application.Feature.UserInfo.Queries;
 using RecyclingSystem.Application.Feature.PickupRequest.Commands;
 using RecyclingSystem.Application.Feature.PickupRequest.Queries;
 using RecyclingSystem.Domain.Enums;
+using RecyclingSystem.Application.DTOs.CustomerInfoDTOs;
 
 
 namespace RecyclingSystem.API.Controllers
@@ -34,13 +35,15 @@ namespace RecyclingSystem.API.Controllers
             _mediator = mediator;
         }
 
+        #region GetAllPickupRequestsForAdmin
         [HttpGet("all")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAllPickupRequestsForAdmin()
         {
             var result = await _mediator.Send(new GetAllPickupRequestsForAdminQuery());
             return Ok(result);
-        }
+        } 
+        #endregion
 
         #region GetAll
         [Authorize]
@@ -111,10 +114,11 @@ namespace RecyclingSystem.API.Controllers
         {
             var result = await _mediator.Send(new GetAllPickupStatusesQuery());
             return result.ToActionResult();
-        } 
+        }
         #endregion
 
 
+        #region GetPickupRequestById
         [Authorize]
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetPickupRequestById(int id)
@@ -123,6 +127,7 @@ namespace RecyclingSystem.API.Controllers
             return Ok(result);
         }
 
+        #endregion
 
 
         [Authorize(Roles = "Employee")]
@@ -133,12 +138,24 @@ namespace RecyclingSystem.API.Controllers
             return Ok(result);
         }
 
+        #region CollectPickupRequest
         [Authorize(Roles = "Employee")]
         [HttpPut("employee-collect/{id:int}")]
         public async Task<IActionResult> CollectPickupRequest(int id, [FromBody] List<UpdatePickupItemsActualQuantity> materialsActualQuantities)
         {
             var result = await _mediator.Send(new EmployeeCollectPickupRequestOrchestrator { PickupRequestId = id, updatePickupItemsActualQuantities = materialsActualQuantities });
             return Ok(result);
+        }
+        #endregion
+
+        [HttpPut("Cancel/Customer")]
+        public async Task<IActionResult> CancelRequestForCustomer(CancelRequestForCustomerDto cancelRequestDto )
+        {
+            var result =await _mediator.Send(new CancelRequestForCustomerOrchestrator
+            {
+                RequestId = cancelRequestDto.RequestId,
+            });
+            return result.ToActionResult();
         }
 
         [Authorize(Roles = "Admin")]
