@@ -39,7 +39,7 @@ namespace RecyclingSystem.Application.Feature.AdminFeature.Command
             // Check if user already exists
             var existingUser = await _userManager.FindByEmailAsync(dto.EmailAddress);
             if (existingUser != null)
-                return Result<string>.Failure("This email is already registered.");
+                return Result<string>.Failure(ErrorCode.ValidationError, "This email is already registered.");
 
             // Create new user
             var employee = new ApplicationUser
@@ -55,7 +55,10 @@ namespace RecyclingSystem.Application.Feature.AdminFeature.Command
 
             IdentityResult result = await _userManager.CreateAsync(employee, dto.Password);
             if (!result.Succeeded)
-                return Result<string>.Failure(result.Errors.First().Description);
+            {
+                var errorDescription = result.Errors.FirstOrDefault()?.Description ?? "Failed to create user.";
+                return Result<string>.Failure(ErrorCode.ValidationError, errorDescription);
+            }
         
             // Ensure role exists
             if (!await _roleManager.RoleExistsAsync("Employee"))

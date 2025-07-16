@@ -9,7 +9,6 @@ namespace RecyclingSystem.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
     public class AdminController : ControllerBase
     {
         private readonly IMediator mediator;
@@ -17,6 +16,7 @@ namespace RecyclingSystem.API.Controllers
             this.mediator = mediator;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost("registerEmployee")]
         public async Task<IActionResult> RegisterEmployee([FromBody] RegisterEmployeeDTO dto)
         {
