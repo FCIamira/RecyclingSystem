@@ -16,6 +16,7 @@ namespace RecyclingSystem.Domain.Interfaces
         IQueryable<T> GetAllWithFilter(Expression<Func<T, bool>> filter);
         Task<T> GetSpecificWithFilter(Expression<Func<T, bool>> filter);
         public Task<bool> RemoveByExpression(Expression<Func<T, bool>> predicate);
+        Task<int> CountAsync(Expression<Func<T, bool>> filter);
         Task<IEnumerable<T>> GetAll();
     }
 }
