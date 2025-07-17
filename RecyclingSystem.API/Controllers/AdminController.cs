@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RecyclingSystem.Application.DTOs.AccountDTOs;
 using RecyclingSystem.Application.Feature.AdminFeature.Command;
+using RecyclingSystem.Application.Feature.AdminFeature.Query;
 
 namespace RecyclingSystem.API.Controllers
 {
@@ -12,7 +13,8 @@ namespace RecyclingSystem.API.Controllers
     public class AdminController : ControllerBase
     {
         private readonly IMediator mediator;
-        public AdminController( IMediator mediator) {
+        public AdminController(IMediator mediator)
+        {
             this.mediator = mediator;
         }
 
@@ -26,6 +28,17 @@ namespace RecyclingSystem.API.Controllers
             if (!result.IsSuccess)
                 return BadRequest(result);
 
+            return Ok(result);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet("dashboard")]
+        public async Task<IActionResult> GetDashboardStatistics()
+        {
+            var query = new GetDashboardStatisticsQuery();
+            var result = await mediator.Send(query);
+            if (!result.IsSuccess)
+                return BadRequest(result);
             return Ok(result);
         }
     }

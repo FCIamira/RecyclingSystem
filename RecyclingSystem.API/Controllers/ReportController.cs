@@ -41,15 +41,10 @@ namespace RecyclingSystem.API.Controllers
 
         [Authorize(Roles = "Admin, Employee")]
         [HttpGet]
-        public async Task<IActionResult> GetAllReports([FromQuery] string? status)
+        public async Task<IActionResult> GetAllReports()
         {
-            var query = new GetAllReportsQuery { Status = status };
-            var result = await mediator.Send(query);
-            if (result.IsSuccess)
-            {
-                return Ok(result);
-            }
-            return BadRequest(result);
+            var reports = await mediator.Send(new GetAllReportsQuery());
+            return Ok(reports);
         }
 
         [Authorize(Roles = "Admin,Employee")]

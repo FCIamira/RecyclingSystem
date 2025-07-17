@@ -8,5 +8,6 @@ namespace RecyclingSystem.Domain.Interfaces
 {
     public interface IPickupItem:IGenericRepo<PickupItem,int>
     {
+        Task<PickupItem?> GetByRequestIdAndMaterialId(int pickupRequestId, int materialId);
     }
 }

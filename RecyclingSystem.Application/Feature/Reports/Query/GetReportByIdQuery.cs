@@ -25,7 +25,7 @@ namespace RecyclingSystem.Application.Feature.Reports.Query
         }
         public async Task<Result<ReportDto>> Handle(GetReportByIdQuery request, CancellationToken cancellationToken)
         {
-            var report = await _unitOfWork.report.GetById(request.Id);
+            var report = await _unitOfWork.report.GetReportById(request.Id);
             if (report == null)
             {
                 return Result<ReportDto>.Failure(Domain.Enums.ErrorCode.NotFound, "Report not found");
@@ -35,9 +35,11 @@ namespace RecyclingSystem.Application.Feature.Reports.Query
             {
                 Id = report.Id,
                 EmployeeId = report.EmployeeId,
+                EmployeeName = report.Employee.FullName,
                 Type = report.Type,
                 PickupRequestId = report.PickupRequestId,
-                WarehouseId = report.WarehouseId,
+                CustomerName = report.PickupRequest?.Customer?.FullName,
+                RequestAddress = report.PickupRequest?.Address,
                 Description = report.Description,
                 CreatedAt = report.DateCreated,
                 Status = report.Status,

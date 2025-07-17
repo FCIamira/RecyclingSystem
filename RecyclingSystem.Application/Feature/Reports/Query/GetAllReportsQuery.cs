@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.Extensions.Logging;
 using RecyclingSystem.Application.Behaviors;
 using RecyclingSystem.Application.DTOs.ReportsDTOs;
 using RecyclingSystem.Domain.Enums;
@@ -11,74 +12,52 @@ using System.Threading.Tasks;
 
 namespace RecyclingSystem.Application.Feature.Reports.Query
 {
-    public class GetAllReportsQuery : IRequest<Result<GetAllReportsResponse>>
+    public class GetAllReportsQuery : IRequest<Result<List<ReportDto>>>
     {
-        public string? Status { get; set; }
     }
 
-    public class GetAllReportsResponse
-    {
-        public List<ReportDto> Reports { get; set; } = new List<ReportDto>();
-        public int TotalCount { get; set; }
-    }
-
-    public class GetAllReportsQueryHandler : IRequestHandler<GetAllReportsQuery, Result<GetAllReportsResponse>>
+    public class GetAllReportsQueryHandler : IRequestHandler<GetAllReportsQuery, Result<List<ReportDto>>>
     {
         // This handler would typically interact with a repository or database context to fetch the reports.
         private readonly IUnitOfWork _unitOfWork;
-        public GetAllReportsQueryHandler(IUnitOfWork unitOfWork)
+        private readonly ILogger<GetAllReportsQueryHandler> _logger;
+        public GetAllReportsQueryHandler(IUnitOfWork unitOfWork, ILogger<GetAllReportsQueryHandler> logger)
         {
             _unitOfWork = unitOfWork;
+            _logger = logger;
         }
-        public async Task<Result<GetAllReportsResponse>> Handle(GetAllReportsQuery request, CancellationToken cancellationToken)
+        public async Task<Result<List<ReportDto>>> Handle(GetAllReportsQuery request, CancellationToken cancellationToken)
         {
-
-            if(request.Status == null)
+            _logger.LogInformation("Getting all reports.");
+            try
             {
-                var reports = await _unitOfWork.report.GetAll();
-                var response = new GetAllReportsResponse
+                var reports = await _unitOfWork.report.GetAllReportWithDetailsAsync();
+                if(reports == null)
                 {
-                    Reports = reports.Select(r => new ReportDto
-                    {
-                        Id = r.Id,
-                        EmployeeId = r.EmployeeId,
-                        Type = r.Type,
-                        Description = r.Description,
-                        Status = r.Status,
-                        CreatedAt = r.DateCreated
-                    }).ToList(),
-                    TotalCount = reports.Count()
-                };
-                return Result<GetAllReportsResponse>.Success(response);
-            }
-            else
-            {
-                if (!Enum.TryParse<ReportStatus>(request.Status, true, out var statusEnum))
-                {
-                    // Handle invalid status value (e.g., return error or default behavior)
-                    return Result<GetAllReportsResponse>.Failure(ErrorCode.BadRequest ,"Invalid status value");
+                    _logger.LogWarning("Reports not found.");
+                    return Result<List<ReportDto>>.Failure(ErrorCode.NotFound, "Reports not found.");
                 }
 
-                // Filter reports by status if provided
-                var reportsByStatus = _unitOfWork.report.GetAllWithFilter(r => r.Status == statusEnum);
-                var responseByStatus = new GetAllReportsResponse
+                var reportsDto = reports.Select(r => new ReportDto
                 {
-                    Reports = reportsByStatus.Select(r => new ReportDto
-                    {
-                        Id = r.Id,
-                        EmployeeId = r.EmployeeId,
-                        Type = r.Type,
-                        Description = r.Description,
-                        Status = r.Status,
-                        CreatedAt = r.DateCreated
-                    }).ToList(),
-                    TotalCount = reportsByStatus.Count()
-                };
-                return Result<GetAllReportsResponse>.Success(responseByStatus);
-
+                    Id = r.Id,
+                    EmployeeId = r.EmployeeId,
+                    EmployeeName = r.Employee.FullName,
+                    Type = r.Type,
+                    PickupRequestId = r.PickupRequestId,
+                    CustomerName = r.PickupRequest?.Customer?.FullName,
+                    RequestAddress = r.PickupRequest?.Address,
+                    Description = r.Description,
+                    Status = r.Status,
+                    CreatedAt = r.DateCreated
+                }).ToList();
+                return Result<List<ReportDto>>.Success(reportsDto);
             }
-
-
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while retrieving reports.");
+                return Result<List<ReportDto>>.Failure(ErrorCode.ServerError, ex.Message);
+            }
            
         }
     }

@@ -21,7 +21,7 @@ namespace RecyclingSystem.Application.Behaviors
                 var material = await _mediator.Send(new GetMaterialByIdQuery { Id = item.MaterialId });
                 if (material != null)
                 {
-                    totalPoints += material.Data.PointsPerUnit * (int)item.ActualQuantity;
+                    totalPoints += material.Data.PointsPerUnit * (item.ActualQuantity ?? 0);
                 }
             }
             return totalPoints;
