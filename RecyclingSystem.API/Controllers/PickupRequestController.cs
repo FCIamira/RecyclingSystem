@@ -17,6 +17,7 @@ using RecyclingSystem.Application.Feature.UserInfo.Queries;
 using RecyclingSystem.Application.Feature.PickupRequest.Commands;
 using RecyclingSystem.Application.Feature.PickupRequest.Queries;
 using RecyclingSystem.Domain.Enums;
+using RecyclingSystem.Application.DTOs.CustomerInfoDTOs;
 
 
 namespace RecyclingSystem.API.Controllers
@@ -141,9 +142,9 @@ namespace RecyclingSystem.API.Controllers
             return Ok(result);
         }
 
-        [Authorize(Roles = "Admin")]
-        [HttpGet("TotalRequests&Rewards/{id:int}")]
-        public async Task<IActionResult> GetTotalRequestsAndRewards(int id)
+        //[Authorize(Roles = "Admin")]
+        //[HttpGet("TotalRequests&Rewards/{id:int}")]
+        //public async Task<IActionResult> GetTotalRequestsAndRewards(int id);
         [HttpPut("Cancel/Customer")]
         public async Task<IActionResult> CancelRequestForCustomer([FromBody] CancelRequestForCustomerDto cancelRequestDto )
         {
