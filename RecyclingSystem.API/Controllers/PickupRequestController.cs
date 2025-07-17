@@ -149,7 +149,7 @@ namespace RecyclingSystem.API.Controllers
         #endregion
 
         [HttpPut("Cancel/Customer")]
-        public async Task<IActionResult> CancelRequestForCustomer(CancelRequestForCustomerDto cancelRequestDto )
+        public async Task<IActionResult> CancelRequestForCustomer([FromBody] CancelRequestForCustomerDto cancelRequestDto )
         {
             var result =await _mediator.Send(new CancelRequestForCustomerOrchestrator
             {
