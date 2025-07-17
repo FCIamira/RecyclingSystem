@@ -18,6 +18,7 @@ using RecyclingSystem.Application.Feature.PickupRequest.Commands;
 using RecyclingSystem.Application.Feature.PickupRequest.Queries;
 using RecyclingSystem.Domain.Enums;
 using RecyclingSystem.Application.DTOs.CustomerInfoDTOs;
+using Azure.Core;
 
 
 namespace RecyclingSystem.API.Controllers
@@ -142,13 +143,17 @@ namespace RecyclingSystem.API.Controllers
             return Ok(result);
         }
 
-        //[Authorize(Roles = "Admin")]
-        //[HttpGet("TotalRequests&Rewards/{id:int}")]
-        //public async Task<IActionResult> GetTotalRequestsAndRewards(int id);
+        [Authorize(Roles = "Admin")]
+        [HttpGet("TotalRequests&Rewards/{id:int}")]
+        public async Task<IActionResult> GetTotalRequestsAndRewards(int id)
+        {
+            var result = await _mediator.Send(new GetTotalRequestsForCustomerQuery { CustomerId = id });
+            return Ok(result);
+        }
         [HttpPut("Cancel/Customer")]
         public async Task<IActionResult> CancelRequestForCustomer([FromBody] CancelRequestForCustomerDto cancelRequestDto )
         {
-            var result = await _mediator.Send(new GetTotalRequestsForCustomerQuery { CustomerId = id });
+            var result = await _mediator.Send(new CancelRequestForCustomerOrchestrator { RequestId =cancelRequestDto.RequestId  });
             return Ok(result);
         }
 
