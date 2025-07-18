@@ -1,4 +1,5 @@
-﻿using RecyclingSystem.Domain.Models;
+﻿using RecyclingSystem.Domain.Enums;
+using RecyclingSystem.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,9 @@ namespace RecyclingSystem.Domain.Interfaces
         // get a pickup request by id with all details
         Task<PickupRequest> GetByIdWithDetails(int id);
         Task<EmployeeWarehouseHistory> GetLatestWarehouseByEmployeeIdAsync(int employeeId);
+         Task<List<PickupRequest>> GetScheduledRequestsFor(string employeeEmail);
+       
+
 
     }
 }

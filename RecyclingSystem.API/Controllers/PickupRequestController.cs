@@ -107,6 +107,7 @@ namespace RecyclingSystem.API.Controllers
 
 
         #endregion
+
         #region GetAllStatus
         [HttpGet("GetAllStatus")]
         public async Task<IActionResult> GetAllStatus()

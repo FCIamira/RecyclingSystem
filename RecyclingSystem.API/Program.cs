@@ -9,7 +9,9 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using RecyclingSystem.Application.Feature.Account.Commands;
 using RecyclingSystem.Application.Feature.PickupRequest.Queries.GetAllPickupRequests;
+using RecyclingSystem.Application.Interfaces;
 using RecyclingSystem.Application.Mapping;
+using RecyclingSystem.Application.Services;
 using RecyclingSystem.Domain.Interfaces;
 using RecyclingSystem.Domain.Models;
 using RecyclingSystem.Infrastructure.Context;
@@ -56,6 +58,7 @@ namespace RecyclingSystem.API
                           .AllowAnyHeader());
             });
 
+            builder.Services.AddScoped<IEmployeeAvailabilityService, EmployeeAvailabilityService>();
 
             // Identity
             builder.Services.AddIdentity<ApplicationUser, IdentityRole<int>>(options =>

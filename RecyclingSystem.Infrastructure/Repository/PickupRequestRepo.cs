@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using RecyclingSystem.Domain.Enums;
+using Microsoft.AspNetCore;
 
 namespace RecyclingSystem.Infrastructure.Repository
 {
@@ -56,6 +58,12 @@ namespace RecyclingSystem.Infrastructure.Repository
             return result;
         }
 
+        public async Task<List<PickupRequest>> GetScheduledRequestsFor(string employeeEmail)
+        {
+            return await context.PickupRequests
+                .Where(r => r.Employee.Email == employeeEmail && r.Status == PickupStatus.Scheduled)
+                .ToListAsync();
+        }
 
 
     }

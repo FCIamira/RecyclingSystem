@@ -12,5 +12,7 @@ namespace RecyclingSystem.Domain.Interfaces
     public interface IApplicationUser : IIdentityRepository<ApplicationUser>
     {
 
+         Task<List<ApplicationUser>> GetEmployeeWithFilter(Expression<Func<ApplicationUser, bool>> filter);
+
     }
 }
