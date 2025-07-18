@@ -30,6 +30,7 @@ namespace RecyclingSystem.Infrastructure.Repository
         public async Task<Report> GetReportById(int id)
         {
             return await context.Reports
+                .Where(r => r.Id == id)
                 .Include(r => r.Employee)
                 .Include(r => r.PickupRequest)
                 .ThenInclude(p => p.Customer)
