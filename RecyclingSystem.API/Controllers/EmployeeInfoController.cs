@@ -20,9 +20,9 @@ namespace RecyclingSystem.API.Controllers
             _mediator = mediator;
         }
         #region GetAllEmployees
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
 
-        [HttpGet("{id:int}")]
+        [HttpGet("GetAvaliable-employee/{id:int}")]
         public async Task<IActionResult> GetAllEmployees(int id)
         {
             var result = await _mediator.Send(new GetAllEmployeesQuery() { RequestId = id });
@@ -34,7 +34,7 @@ namespace RecyclingSystem.API.Controllers
 
 
         #region assign-employee
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpPost("assign-employee/{id:int}")]
         public async Task<IActionResult> AssignEmployeeToRequest(int id, [FromBody] AssignEmployeeToRequestDto requestDto)
         {
